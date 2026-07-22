@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://w3.org' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪐</text></svg>">
-    <title>&#127800; Lia's Gästebuch</title>
+    <title>Gästebuch</title>
     <style>
         body {
             font-family: 'Segoe UI', Roboto, sans-serif;
@@ -92,7 +92,7 @@
             <h2><span>Community Gästebuch</span> &#127800;</h2>
             
             <div id="guestbook-area">
-                <p>Hinterlasse mir oder meinen Besuchern eine nette Nachricht!</p>
+                <p>Schreibe mir oder meinen Besuchern eine nette Nachricht!</p>
                 <div class="comment-input-box">
                     <input type="text" id="comment-name" class="comment-input" placeholder="Dein Name...">
                     <input type="text" id="comment-text" class="comment-input" placeholder="Schreibe eine Nachricht...">
@@ -108,11 +108,11 @@
         </div>
     </div>
 
+    <!-- Skripte ans Ende verlagert, damit alle Elemente beim Laden existieren -->
     <script>
         let currentRole = 'member';
         const STAFF_PASSWORD = 'lia123';
 
-        // Automatisch Name & Sperre setzen, wenn der Nutzer auf der Hauptseite eingeloggt ist
         function checkUserLogin() {
             const profile = localStorage.getItem('lia_user_profile');
             const nameInput = document.getElementById('comment-name');
@@ -142,7 +142,7 @@
         function addComment() {
             const n = document.getElementById('comment-name');
             const t = document.getElementById('comment-text');
-            if (!n.value.trim() || !t.value.trim()) return;
+            if (!n || !t || !n.value.trim() || !t.value.trim()) return;
 
             const profile = localStorage.getItem('lia_user_profile');
             let userPic = '';
@@ -198,7 +198,6 @@
             });
         }
 
-        // Seidenweicher Maus-Herzchen-Schweif
         const trailEmojis = ['&#12436;', '&#12435;', '&#12434;', '&#10024;', '&#127800;'];
         document.addEventListener('mousemove', (e) => {
             if (Math.random() > 0.25) return;
