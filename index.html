@@ -21,6 +21,7 @@
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(20, 10, 35, 0.85); backdrop-filter: blur(20px);
             z-index: 10000; display: flex; justify-content: center; align-items: center;
+            opacity: 1; transition: opacity 0.5s ease;
         }
         .login-box {
             background: rgba(255, 255, 255, 0.7); border-radius: 35px;
@@ -42,6 +43,7 @@
         .input-field {
             width: 80%; padding: 12px 20px; border-radius: 50px;
             border: 2px solid #ff007f; font-size: 1rem; text-align: center; outline: none;
+            background: rgba(255,255,255,0.9);
         }
 
         /* Status-Anzeige oben rechts */
@@ -128,7 +130,7 @@
         
         .delete-btn {
             background: #ff3838; color: white; border: none; padding: 8px 15px;
-            border-radius: 15px; font-weight: 800; cursor: pointer; display: none; /* Am Anfang unsichtbar, nur für Staff */
+            border-radius: 15px; font-weight: 800; cursor: pointer; display: none;
         }
         .delete-btn:hover { background: #cf2121; }
 
