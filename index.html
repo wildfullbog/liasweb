@@ -39,6 +39,17 @@
             100% { transform: translate(-50%, -50%) scale(1.4) translateY(-20px); opacity: 0; }
         }
 
+        /* Status Anzeige oben rechts */
+        .status-container {
+            position: fixed; top: 20px; right: 20px; z-index: 999;
+        }
+        .status-box {
+            background: rgba(255,255,255,0.1); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            padding: 10px 22px; border-radius: 50px; font-weight: 800; font-size: 0.85rem;
+            border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); color: #74b9ff;
+        }
+
         /* Luxus Glasmorphism Header */
         header {
             width: 90%; max-width: 1000px; margin-top: 25px;
@@ -89,88 +100,76 @@
             box-shadow: 0 10px 30px rgba(255, 0, 127, 0.5); transition: all 0.3s ease;
         }
 
+        /* Kommentarsystem Style */
+        .comment-input-box { display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px; }
+        .comment-input {
+            width: 100%; padding: 15px 25px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.07); font-size: 1.1rem; font-weight: 600; outline: none; box-sizing: border-box; color: #fff;
+        }
+        .comment-input::placeholder { color: #aaa; }
+        .comment-submit-btn {
+            background: linear-gradient(45deg, #ff007f, #ff00ff); color: white; border: none;
+            padding: 16px; border-radius: 50px; font-weight: 900; font-size: 1.15rem; cursor: pointer; transition: 0.2s;
+            box-shadow: 0 5px 15px rgba(255,0,127,0.3);
+        }
+        .comment-submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255,0,127,0.6); }
+        
+        .comments-list { text-align: left; display: flex; flex-direction: column; gap: 15px; }
+        .single-comment {
+            background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 25px;
+            border: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center;
+        }
+        .comment-user { font-weight: 900; color: #ff007f; font-size: 1.1rem; margin-bottom: 5px; }
+        .comment-text { font-weight: 600; color: #eee; font-size: 1.1rem; }
+        
+        .delete-btn {
+            background: #ff3838; color: white; border: none; padding: 8px 15px;
+            border-radius: 15px; font-weight: 800; cursor: pointer; display: none;
+        }
+        .delete-btn:hover { background: #cf2121; }
+
+        .staff-trigger-btn {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.15);
+            color: #aaa; padding: 10px 25px; border-radius: 50px; cursor: pointer;
+            font-weight: 700; font-size: 0.85rem; margin-bottom: 20px; transition: 0.2s;
+        }
+        .staff-trigger-btn:hover { background: rgba(255, 0, 127, 0.2); border-color: #ff007f; color: #fff; }
+
         #pet-axolotl { position: fixed; bottom: 25px; right: 25px; font-size: 3.8rem; cursor: pointer; z-index: 999; user-select: none; }
         footer { margin-top: auto; padding: 45px; font-size: 1.1rem; color: #fff; font-weight: 800; z-index: 10; }
     </style>
-</head>
-<body>
-
-    <div class="heart-bg" style="left: 15%; animation-delay: 0s;">💖</div>
-    <div class="heart-bg" style="left: 40%; animation-delay: 3s;">🦎</div>
-    <div class="heart-bg" style="left: 65%; animation-delay: 1s;">✨</div>
-    <div class="heart-bg" style="left: 85%; animation-delay: 5s;">🌸</div>
-
-    <div id="pet-axolotl" onclick="petMe()">🦎</div>
-
-    <header>
-        <div class="logo">🌌 LIA'S SPACE WORLD</div>
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#about">Über mich</a>
-            <a href="https://tiktok.com" target="_blank">My Style ✨</a>
-        </nav>
-    </header>
-
-    <div class="main-content">
-        <div class="card" id="home">
-            <h1>Hi, ich bin <span>Lia</span>! 🦎</h1>
-            <p>Willkommen in meiner pinken Cyber-Oase! Ich liebe Gaming, guten Style und natürlich Axolotl. Schön, dass du da bist! 🌸</p>
-            <a href="https://tiktok.com" target="_blank" class="btn">MEIN TIKTOK PROFILE 🎬</a>
-            
-            <div class="discord-box">
-                <div class="discord-info">
-                    <div style="font-size: 2.5rem;">👾</div>
-                    <div>
-                        <div style="font-size: 0.75rem; font-weight: 900; text-transform: uppercase; opacity: 0.9;">Add mich auf Discord:</div>
-                        <div class="discord-name">i_like_axolotl</div>
-                    </div>
-                </div>
-                <div style="font-size: 1.5rem;">🌸</div>
-            </div>
-        </div>
-
-        <div class="card" id="about">
-            <h2><span>Mein Steckbrief</span> ✨</h2>
-            <div class="info-grid">
-                <div class="info-item"><div class="info-label">Spitzname / Ingame</div><div class="info-value">Lia 🎮</div></div>
-                <div class="info-item"><div class="info-label">Alter</div><div class="info-value">17 Jahre 👑</div></div>
-                <div class="info-item"><div class="info-label">Obsession</div><div class="info-value">Axolotls 🦎💖</div></div>
-                <div class="info-item"><div class="info-label">Vibe</div><div class="info-value">Space & Aesthetic 🌌</div></div>
-            </div>
-
-            <h3 style="margin-top: 40px; font-weight: 900; font-size: 1.5rem;"><span>My Games & Hobbies</span> 🕹️</h3>
-            <div style="margin-top: 15px;">
-                <span class="game-tag">Valorant 🔫</span>
-                <span class="game-tag">Roblox 🧸</span>
-                <span class="game-tag">Minecraft 💎</span>
-                <span class="game-tag">TikToks Create 🎬</span>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        &copy; 2026 Lia's World &bull; Created with 10.000.000x Cosmic-Power 🌌
-    </footer>
-
+    
+    <!-- Die Logik-Skripte für die Kommentare krisensicher im Head -->
     <script>
-        const trailEmojis = ['💖', '💗', '💕', '✨', '🌸', '💝'];
-        document.addEventListener('mousemove', (e) => {
-            if (Math.random() > 0.3) return; 
-            const heart = document.createElement('div');
-            heart.classList.add('sparkle-trail');
-            heart.innerText = trailEmojis[Math.floor(Math.random() * trailEmojis.length)];
-            heart.style.left = e.clientX + 'px';
-            heart.style.top = e.clientY + 'px';
-            document.body.appendChild(heart);
-            setTimeout(() => { heart.remove(); }, 500);
-        });
+        let currentRole = 'member';
+        const STAFF_PASSWORD = 'lia123'; // Admin-Passwort
 
-        function petMe() {
-            const pet = document.getElementById('pet-axolotl');
-            if(!pet) return;
-            pet.innerText = '🌸';
-            setTimeout(() => { pet.innerText = '🦎'; }, 500);
+        function triggerStaffLogin() {
+            const enteredPw = prompt('Bitte das Staff-Passwort eingeben: 👾');
+            if (enteredPw === STAFF_PASSWORD) {
+                currentRole = 'staff';
+                alert('Erfolgreich als Staff angemeldet! 👾 Die Löschknöpfe sind aktiv.');
+                
+                const statusTag = document.getElementById('role-tag');
+                if(statusTag) {
+                    statusTag.innerHTML = '👾 Staff-Mode';
+                    statusTag.style.color = '#ff007f';
+                }
+                displayComments();
+            } else if (enteredPw !== null) {
+                alert('Falsches Passwort! ❌');
+            }
         }
-    </script>
-</body>
-</html>
+
+        function getComments() {
+            const comments = localStorage.getItem('lia_comments');
+            return comments ? JSON.parse(comments) : [];
+        }
+
+        function addComment() {
+            const nameInput = document.getElementById('comment-name');
+            const textInput = document.getElementById('comment-text');
+            
+            if (!nameInput || !textInput || !nameInput.value.trim() || !textInput.value.trim()) {
+                alert('Bitte fülle beide Felder aus! 🌸');
+                return;
