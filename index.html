@@ -35,18 +35,19 @@
         .loader-axolotl { font-size: 5rem; animation: bounce 1s infinite alternate; }
         .loader-text { color: white; font-weight: 900; font-size: 1.5rem; margin-top: 20px; text-shadow: 0 0 10px rgba(0,0,0,0.1); }
         
-        /* Stylischer Internet-Fehler-Text (Am Anfang unsichtbar) */
+        /* Neuer Internet-Fehler-Text (direkt im Ladebildschirm) */
         #error-text {
             display: none;
             color: #ff3838;
             font-weight: 900;
             font-size: 1.2rem;
-            margin-top: 15px;
-            text-shadow: 0 0 15px rgba(255, 56, 56, 0.6);
-            background: rgba(0, 0, 0, 0.1);
-            padding: 8px 20px;
+            margin-top: 20px;
+            text-shadow: 0 0 15px rgba(255, 56, 56, 0.7);
+            background: rgba(0, 0, 0, 0.15);
+            padding: 8px 25px;
             border-radius: 20px;
             animation: blink 1s infinite alternate;
+            letter-spacing: 1px;
         }
 
         /* Magische Partikel-Sterne */
@@ -79,7 +80,7 @@
             100% { transform: scale(0); opacity: 0; }
         }
         @keyframes bounce { 0% { transform: translateY(0); } 100% { transform: translateY(-20px); } }
-        @keyframes blink { 0% { opacity: 0.3; } 100% { opacity: 1; } }
+        @keyframes blink { 0% { opacity: 0.4; } 100% { opacity: 1; } }
 
         /* High-End Glas-Header */
         header {
@@ -215,24 +216,6 @@
         .info-value { font-size: 1.3rem; font-weight: 800; color: #1e272e; }
         .game-tag { display: inline-block; background: linear-gradient(135deg, #74b9ff, #a29bfe); color: white; padding: 10px 20px; border-radius: 20px; font-weight: 800; margin: 5px; box-shadow: 0 4px 15px rgba(162, 155, 254, 0.4); }
 
-        /* Neon-Glow-Button */
-        .btn {
-            display: inline-block;
-            padding: 18px 45px;
-            background: linear-gradient(45deg, #ff007f, #ff00ff);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 900;
-            font-size: 1.2rem;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(255, 0, 127, 0.4), 0 10px 30px rgba(255, 0, 127, 0.3);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .btn:hover { box-shadow: 0 0 35px #ff007f, 0 0 10px #ff00ff; transform: scale(1.08) translateY(-3px); }
-
         /* Interaktives Axolotl-Haustier unten rechts */
         #pet-axolotl {
             position: fixed;
@@ -253,11 +236,10 @@
 </head>
 <body>
 
-    <!-- Lade-Screen -->
+    <!-- Lade-Screen mit eingebautem Fehlertext -->
     <div id="loader">
         <div class="loader-axolotl">🦎🌸</div>
         <div class="loader-text">Lia's World wird geladen... ✨</div>
-        <!-- Neuer Fehlertext -->
         <div id="error-text">INTERNET-FEHLER ⚠️</div>
     </div>
 
@@ -280,3 +262,18 @@
         <div class="card" id="home">
             <h1>Hi, ich bin <span>Lia</span>! 🦎</h1>
             <p>Willkommen in meiner pinken Cyber-Oase! Ich liebe Gaming, guten Style und natürlich Axolotl. Schön, dass du da bist! 🌸</p>
+            <a href="https://tiktok.com" target="_blank" class="btn">MEIN TIKTOK PROFILE 🎬</a>
+            
+            <div class="discord-box">
+                <div class="discord-info">
+                    <div class="discord-icon">👾</div>
+                    <div>
+                        <div style="font-size: 0.75rem; font-weight: 900; text-transform: uppercase; opacity: 0.9;">Add mich auf Discord:</div>
+                        <div class="discord-name">i_like_axolotl</div>
+                    </div>
+                </div>
+                <div style="font-size: 1.5rem;">🌸</div>
+            </div>
+        </div>
+
+        <div class="card" id="about">
