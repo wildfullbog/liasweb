@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://w3.org viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪐</text></svg>">
+    
+    <!-- REPARIERTE ZEILE 6: Bombenfestes Planeten-Icon für den Browser-Tab -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://w3.org' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪐</text></svg>">
     <title>🪐 Lia's Space World</title>
     
     <script>
         let currentRole = 'member';
         const STAFF_PASSWORD = 'lia123'; // Dein Passwort
 
-        // Staff Login direkt über die Hauptseite ausführen
         function triggerStaffLogin() {
             const enteredPw = prompt('Bitte das Staff-Passwort eingeben: 👾');
             if (enteredPw === STAFF_PASSWORD) {
                 currentRole = 'staff';
                 alert('Erfolgreich als Staff angemeldet! 👾 Die Löschknöpfe sind jetzt aktiv.');
                 
-                // Status-Tag aktualisieren
-                const statusTag = document.getElementById('status-tag');
+                const statusTag = document.getElementById('role-tag');
                 if(statusTag) {
                     statusTag.innerHTML = '👾 Staff-Mode';
                     statusTag.style.color = '#ff007f';
@@ -94,7 +94,6 @@
             });
         }
 
-        // Live-Status Kontrolleur
         window.addEventListener('load', () => {
             const statusIndicator = document.getElementById('live-status-indicator');
             if (statusIndicator) {
@@ -115,7 +114,6 @@
             display: flex; flex-direction: column; align-items: center; overflow-x: hidden;
         }
 
-        /* Live-Status-Box oben rechts */
         .status-container {
             position: fixed; top: 20px; right: 20px; display: flex; flex-direction: column; gap: 8px; z-index: 999;
         }
@@ -132,13 +130,11 @@
         @keyframes pulse-orange { 0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(230, 126, 34, 0.7); } 100% { transform: scale(1.1); box-shadow: 0 0 10px 4px rgba(230, 126, 34, 0); } }
         @keyframes pulse-green { 0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); } 100% { transform: scale(1.1); box-shadow: 0 0 10px 4px rgba(46, 204, 113, 0); } }
 
-        /* Hintergrund-Partikel */
         .heart-particle {
             position: fixed; top: -10%; font-size: 24px;
             pointer-events: none; animation: fall linear infinite; z-index: 1; opacity: 0.65;
         }
 
-        /* Herz-Cursor-Schweif */
         .sparkle-trail {
             position: fixed; pointer-events: none; z-index: 9999; font-size: 1.5rem; line-height: 1;
             animation: particleFade 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
@@ -148,7 +144,6 @@
         @keyframes fall { 0% { transform: translateY(0) rotate(0deg); opacity: 0.8; } 100% { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
         @keyframes particleFade { 0% { transform: translate(-50%, -50%) scale(0.6); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1.4) translateY(-30px); opacity: 0; } }
 
-        /* Header & Karten */
         header {
             width: 90%; max-width: 1000px; margin-top: 25px;
             background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
@@ -172,7 +167,6 @@
         h2 { font-size: 2.5rem; margin-top: 0; font-weight: 900; color: #2d3436; }
         p { font-size: 1.3rem; line-height: 1.8; color: #444; margin-bottom: 35px; font-weight: 600; }
 
-        /* Discord Banner */
         .discord-box {
             background: linear-gradient(135deg, #5865F2, #7289DA); color: white; border-radius: 30px;
             padding: 22px; margin-top: 30px; display: flex; align-items: center; justify-content: space-between;
@@ -180,14 +174,16 @@
         .discord-info { display: flex; align-items: center; gap: 15px; text-align: left; }
         .discord-name { font-size: 1.4rem; font-weight: 900; }
 
-        /* Steckbrief */
         .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 30px; }
         .info-item { background: rgba(255, 255, 255, 0.45); padding: 22px; border-radius: 25px; border: 2px solid rgba(255, 255, 255, 0.6); text-align: left; }
         .info-label { font-size: 0.9rem; color: #ff007f; font-weight: 900; text-transform: uppercase; margin-bottom: 5px; }
         .info-value { font-size: 1.35rem; font-weight: 800; color: #1e272e; }
         .game-tag { display: inline-block; background: linear-gradient(135deg, #74b9ff, #a29bfe); color: white; padding: 12px 24px; border-radius: 25px; font-weight: 800; margin: 6px; box-shadow: 0 5px 18px rgba(162, 155, 254, 0.4); }
 
-        /* Gästebuch */
         .comment-input-box { display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px; }
         .comment-input {
             width: 100%; padding: 15px 25px; border-radius: 25px; border: 2px solid rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.5); font-size: 1.1rem; font-weight: 600; outline: none; box-sizing: border-box;
+        }
+        .comment-submit-btn {
+            background: linear-gradient(45deg, #ff007f, #ff00ff); color: white; border: none;
