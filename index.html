@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lia's Pink Axolotl Cyber-World</title>
     <style>
-        /* Sanfter Glitzer-Verlauf */
+        /* Sanfter Glitzer-Verlauf im Hintergrund */
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
@@ -19,21 +19,6 @@
             align-items: center;
             overflow-x: hidden;
         }
-
-        /* Lade-Bildschirm */
-        #loader {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(135deg, #ff758c, #fecfef);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.5s ease, visibility 0.5s;
-        }
-        .loader-axolotl { font-size: 5rem; animation: bounce 1s infinite alternate; }
-        .loader-text { color: white; font-weight: 900; font-size: 1.5rem; margin-top: 20px; text-shadow: 0 0 10px rgba(0,0,0,0.1); }
 
         /* Magische Partikel-Sterne */
         .heart-particle {
@@ -64,7 +49,6 @@
             0% { transform: scale(1); opacity: 1; }
             100% { transform: scale(0); opacity: 0; }
         }
-        @keyframes bounce { 0% { transform: translateY(0); } 100% { transform: translateY(-20px); } }
 
         /* High-End Glas-Header */
         header {
@@ -220,15 +204,10 @@
 </head>
 <body>
 
-    <!-- Lade-Screen -->
-    <div id="loader">
-        <div class="loader-axolotl">🦎🌸</div>
-        <div class="loader-text">Lia's World wird geladen... ✨</div>
-    </div>
-
-    <!-- Interaktives Haustier -->
+    <!-- Interaktives Haustier unten rechts -->
     <div id="pet-axolotl" onclick="petMe()">🦎</div>
 
+    <!-- Container für fallende Herzen -->
     <div id="heart-container"></div>
 
     <header>
@@ -242,10 +221,11 @@
 
     <div class="main-content">
         
+        <!-- STARTSEITE -->
         <div class="card" id="home">
             <h1>Hi, ich bin <span>Lia</span>! 🦎</h1>
             <p>Willkommen in meiner pinken Cyber-Oase! Ich liebe Gaming, guten Style und natürlich Axolotl. Schön, dass du da bist! 🌸</p>
-            <a href="https://tiktok.com" target="_blank" class="btn">MEIN TIKTOK PROFILE 🎬</a>
+            <a href="https://tiktok.com" target="_blank" class="btn" style="text-decoration: none; padding: 18px 45px; background: linear-gradient(45deg, #ff007f, #ff00ff); color: white; border-radius: 50px; font-weight: 900; font-size: 1.2rem; display: inline-block; box-shadow: 0 10px 30px rgba(255, 0, 127, 0.3);">MEIN TIKTOK PROFILE 🎬</a>
             
             <div class="discord-box">
                 <div class="discord-info">
@@ -259,6 +239,7 @@
             </div>
         </div>
 
+        <!-- STECKBRIEF -->
         <div class="card" id="about">
             <h2><span>Mein Steckbrief</span> ✨</h2>
             <div class="info-grid">
@@ -268,3 +249,19 @@
                 <div class="info-item"><div class="info-label">Vibe</div><div class="info-value">Pink & Aesthetic ✨</div></div>
             </div>
 
+            <h3 style="margin-top: 35px; font-weight: 900; font-size: 1.4rem;"><span>My Games & Hobbies</span> 🕹️</h3>
+            <div style="margin-top: 10px;">
+                <span class="game-tag">Valorant 🔫</span>
+                <span class="game-tag">Roblox 🧸</span>
+                <span class="game-tag">Minecraft 💎</span>
+                <span class="game-tag">TikToks Create 🎬</span>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Lia's World &bull; Created with 1000x Axolotl-Power 🌸
+    </footer>
+
+    <script>
+        // Hintergrund Partikel (Herzen & Axolotl)
