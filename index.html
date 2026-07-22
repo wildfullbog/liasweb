@@ -10,7 +10,7 @@
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 40%, #fecfef 70%, #96e6a1 100%);
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 40%, #fecfef 70%, #74b9ff 100%);
             background-attachment: fixed;
             min-height: 100vh;
             color: #2d3436;
@@ -20,7 +20,22 @@
             overflow-x: hidden;
         }
 
-        /* Fallende Herzen & Axolotl im Hintergrund */
+        /* 1000x BESSER: Süßer Lade-Bildschirm */
+        #loader {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(135deg, #ff758c, #fecfef);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.6s ease;
+        }
+        .loader-axolotl { font-size: 5rem; animation: bounce 1s infinite alternate; }
+        .loader-text { color: white; font-weight: 900; font-size: 1.5rem; margin-top: 20px; text-shadow: 0 0 10px rgba(0,0,0,0.1); }
+
+        /* Magische Partikel-Sterne im Hintergrund */
         .heart-particle {
             position: fixed;
             top: -10%;
@@ -31,10 +46,25 @@
             opacity: 0.7;
         }
 
+        /* Maus-Effekt Style */
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            background: radial-gradient(circle, #fff 20%, #ff00ff 70%);
+            border-radius: 50%;
+            z-index: 9998;
+            animation: pop 0.6s ease-out forwards;
+        }
+
         @keyframes fall {
             0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
+        @keyframes pop {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+        @keyframes bounce { 0% { transform: translateY(0); } 100% { transform: translateY(-20px); } }
 
         /* High-End Glas-Header */
         header {
@@ -107,7 +137,6 @@
             background: rgba(255, 255, 255, 0.65);
         }
 
-        /* Überschriften */
         h1 {
             font-size: 3.5rem;
             margin: 0 0 20px 0;
@@ -117,7 +146,7 @@
             text-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        h1 span, h2 span {
+        h1 span, h2 span, h3 span {
             background: linear-gradient(45deg, #ff007f, #ff00ff, #70a1ff);
             background-size: 200% auto;
             -webkit-background-clip: text;
@@ -125,20 +154,8 @@
             animation: shine 3s linear infinite;
         }
 
-        h2 {
-            font-size: 2.3rem;
-            margin-top: 0;
-            font-weight: 900;
-            color: #333;
-        }
-
-        p {
-            font-size: 1.25rem;
-            line-height: 1.8;
-            color: #3f3f3f;
-            margin-bottom: 30px;
-            font-weight: 600;
-        }
+        h2 { font-size: 2.3rem; margin-top: 0; font-weight: 900; color: #333; }
+        p { font-size: 1.25rem; line-height: 1.8; color: #3f3f3f; margin-bottom: 30px; font-weight: 600; }
 
         /* Discord Special Card */
         .discord-box {
@@ -159,27 +176,9 @@
             box-shadow: 0 15px 35px rgba(88, 101, 242, 0.6);
         }
 
-        .discord-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            text-align: left;
-        }
-
-        .discord-icon {
-            font-size: 2.5rem;
-            animation: pulse 1.5s infinite;
-        }
-
-        .discord-name {
-            font-size: 1.3rem;
-            font-weight: 900;
-            letter-spacing: 0.5px;
-            background: #fff;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
+        .discord-info { display: flex; align-items: center; gap: 15px; text-align: left; }
+        .discord-icon { font-size: 2.5rem; animation: pulse 1.5s infinite; }
+        .discord-name { font-size: 1.3rem; font-weight: 900; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
 
         /* Steckbrief-Raster */
         .info-grid {
@@ -195,36 +194,11 @@
             border-radius: 25px;
             border: 2px solid rgba(255, 255, 255, 0.5);
             text-align: left;
-            box-shadow: inset 0 4px 10px rgba(255,255,255,0.4);
         }
 
-        .info-label {
-            font-size: 0.9rem;
-            color: #ff007f;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-        }
-
-        .info-value {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #1e272e;
-        }
-
-        /* Gaming-Zone */
-        .game-tag {
-            display: inline-block;
-            background: linear-gradient(135deg, #74b9ff, #a29bfe);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-weight: 800;
-            margin: 5px;
-            font-size: 1rem;
-            box-shadow: 0 4px 15px rgba(162, 155, 254, 0.4);
-        }
+        .info-label { font-size: 0.9rem; color: #ff007f; font-weight: 900; text-transform: uppercase; margin-bottom: 5px; }
+        .info-value { font-size: 1.3rem; font-weight: 800; color: #1e272e; }
+        .game-tag { display: inline-block; background: linear-gradient(135deg, #74b9ff, #a29bfe); color: white; padding: 10px 20px; border-radius: 20px; font-weight: 800; margin: 5px; box-shadow: 0 4px 15px rgba(162, 155, 254, 0.4); }
 
         /* Magischer Neon-Glow-Button */
         .btn {
@@ -242,33 +216,41 @@
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .btn:hover {
-            box-shadow: 0 0 35px #ff007f, 0 0 10px #ff00ff;
-            transform: scale(1.08) translateY(-3px);
-        }
+        .btn:hover { box-shadow: 0 0 35px #ff007f, 0 0 10px #ff00ff; transform: scale(1.08) translateY(-3px); }
 
-        /* Keyframes für Effekte */
+        /* 1000x BESSER: Interaktives Axolotl-Haustier unten rechts */
+        #pet-axolotl {
+            position: fixed;
+            bottom: 20px; right: 20px;
+            font-size: 3.5rem;
+            cursor: pointer;
+            z-index: 999;
+            transition: transform 0.2s;
+            user-select: none;
+        }
+        #pet-axolotl:active { transform: scale(1.3); }
+
         @keyframes shine { to { background-position: 200% center; } }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
 
-        footer {
-            margin-top: auto;
-            padding: 40px;
-            font-size: 1rem;
-            color: #fff;
-            font-weight: 800;
-            text-shadow: 0 2px 5px rgba(255, 0, 127, 0.5);
-            z-index: 10;
-        }
+        footer { margin-top: auto; padding: 40px; font-size: 1rem; color: #fff; font-weight: 800; text-shadow: 0 2px 5px rgba(255, 0, 127, 0.5); z-index: 10; }
     </style>
 </head>
 <body>
 
-    <!-- Die fliegenden Herzchen & Axolotl werden per JavaScript erzeugt -->
+    <!-- Lade-Screen -->
+    <div id="loader">
+        <div class="loader-axolotl">🦎🌸</div>
+        <div class="loader-text">Lia's World wird geladen... ✨</div>
+    </div>
+
+    <!-- Interaktives Haustier -->
+    <div id="pet-axolotl" onclick="petMe()">🦎</div>
+
     <div id="heart-container"></div>
 
     <header>
-        <div class="logo">🦎 LIA'S AXOLOTL WORLD</div>
+        <div class="logo">💖 LIA'S AXOLOTL WORLD</div>
         <nav>
             <a href="#home">Home</a>
             <a href="#about">Über mich</a>
@@ -278,13 +260,11 @@
 
     <div class="main-content">
         
-        <!-- INTRO CARD -->
         <div class="card" id="home">
             <h1>Hi, ich bin <span>Lia</span>! 🦎</h1>
             <p>Willkommen in meiner pinken Cyber-Oase! Ich liebe Gaming, guten Style und natürlich Axolotl. Schön, dass du da bist! 🌸</p>
             <a href="https://tiktok.com" target="_blank" class="btn">MEIN TIKTOK PROFILE 🎬</a>
             
-            <!-- Discord Banner -->
             <div class="discord-box">
                 <div class="discord-info">
                     <div class="discord-icon">👾</div>
@@ -295,22 +275,3 @@
                 </div>
                 <div style="font-size: 1.5rem;">🌸</div>
             </div>
-        </div>
-
-        <!-- ABOUT CARD -->
-        <div class="card" id="about">
-            <h2><span>Mein Steckbrief</span> ✨</h2>
-            
-            <div class="info-grid">
-                <div class="info-item">
-                    <div class="info-label">Spitzname / Ingame</div>
-                    <div class="info-value">Lia 🎮</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">Alter</div>
-                    <div class="info-value">17 Jahre 👑</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">Obsession</div>
-                    <div class="info-value">Axolotls 🦎💖</div>
-                </div>
