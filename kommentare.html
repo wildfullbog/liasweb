@@ -34,6 +34,7 @@
             background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px);
             padding: 18px 35px; border-radius: 50px; border: 1px solid rgba(255, 255, 255, 0.15);
             display: flex; justify-content: space-between; align-items: center; box-sizing: border-box;
+            z-index: 10;
         }
         .logo { font-weight: 900; font-size: 1.6rem; text-shadow: 0 0 15px #ff007f; }
         nav a { margin-left: 25px; text-decoration: none; color: #ffffff; font-weight: 800; }
@@ -47,6 +48,8 @@
         h2 { font-size: 2.5rem; margin-top: 0; font-weight: 900; }
         h2 span { background: linear-gradient(45deg, #ff007f, #ff00ff, #00d2ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         p { font-size: 1.3rem; line-height: 1.8; color: #e0e0e0; margin-bottom: 35px; }
+        
+        /* Gästebuch Inputs */
         .comment-input-box { display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px; }
         .comment-input {
             width: 100%; padding: 15px 25px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.15);
@@ -56,11 +59,16 @@
             background: linear-gradient(45deg, #ff007f, #ff00ff); color: white; border: none;
             padding: 16px; border-radius: 50px; font-weight: 900; font-size: 1.15rem; cursor: pointer;
         }
+        
+        /* Kommentaranzeige */
         .single-comment {
             background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 25px;
             border: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; text-align: left;
         }
+        .comment-user-box { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+        .comment-avatar { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
         .comment-user { font-weight: 900; color: #ff007f; }
+        
         .delete-btn { background: #ff3838; color: white; border: none; padding: 8px 15px; border-radius: 15px; font-weight: 800; cursor: pointer; display: none; }
         .staff-trigger-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.15); color: #aaa; padding: 10px 25px; border-radius: 50px; cursor: pointer; font-weight: 700; }
         #pet-axolotl { position: fixed; bottom: 25px; right: 25px; font-size: 3.8rem; cursor: pointer; z-index: 999; user-select: none; }
@@ -82,12 +90,16 @@
     <div class="main-content">
         <div class="card">
             <h2><span>Community Gästebuch</span> &#127800;</h2>
-            <p>Schreib mir oder meinen Besuchern eine nette Nachricht!</p>
-            <div class="comment-input-box">
-                <input type="text" id="comment-name" class="comment-input" placeholder="Dein Name...">
-                <input type="text" id="comment-text" class="comment-input" placeholder="Schreibe eine Nachricht...">
-                <button class="comment-submit-btn" onclick="addComment()">Absenden &#10024;</button>
+            
+            <div id="guestbook-area">
+                <p>Hinterlasse mir oder meinen Besuchern eine nette Nachricht!</p>
+                <div class="comment-input-box">
+                    <input type="text" id="comment-name" class="comment-input" placeholder="Dein Name...">
+                    <input type="text" id="comment-text" class="comment-input" placeholder="Schreibe eine Nachricht...">
+                    <button class="comment-submit-btn" onclick="addComment()">Absenden &#10024;</button>
+                </div>
             </div>
+            
             <div id="comments-display"></div>
         </div>
 
@@ -99,6 +111,18 @@
     <script>
         let currentRole = 'member';
         const STAFF_PASSWORD = 'lia123';
+
+        // Automatisch Name & Sperre setzen, wenn der Nutzer auf der Hauptseite eingeloggt ist
+        function checkUserLogin() {
+            const profile = localStorage.getItem('lia_user_profile');
+            const nameInput = document.getElementById('comment-name');
+            if (profile && nameInput) {
+                const data = JSON.parse(profile);
+                const customNick = localStorage.getItem('lia_custom_nickname') || '';
+                nameInput.value = customNick ? `${data.name} (${customNick})` : data.name;
+                nameInput.disabled = true; 
+            }
+        }
 
         function triggerStaffLogin() {
             const enteredPw = prompt('Staff-Passwort eingeben:');
@@ -120,8 +144,17 @@
             const t = document.getElementById('comment-text');
             if (!n.value.trim() || !t.value.trim()) return;
 
+            const profile = localStorage.getItem('lia_user_profile');
+            let userPic = '';
+            if(profile) { userPic = JSON.parse(profile).picture; }
+
             const comments = getComments();
-            comments.push({ id: Date.now(), user: n.value.trim(), text: t.value.trim() });
+            comments.push({ 
+                id: Date.now(), 
+                user: n.value.trim(), 
+                text: t.value.trim(),
+                avatar: userPic
+            });
             localStorage.setItem('lia_comments', JSON.stringify(comments));
             t.value = ''; displayComments();
         }
@@ -146,23 +179,29 @@
                 const div = document.createElement('div');
                 div.classList.add('single-comment');
                 const btn = currentRole === 'staff' ? `<button class="delete-btn" style="display:block;" onclick="deleteComment(${c.id})">&#10060;</button>` : '';
-                div.innerHTML = `<div><div class="comment-user">👤 ${c.user}</div><div>${c.text}</div></div>${btn}`;
+                
+                const avatarHtml = c.avatar 
+                    ? `<img class="comment-avatar" src="${c.avatar}" alt="">`
+                    : `<span style="font-size:1.5rem; margin-right:8px;">👤</span>`;
+
+                div.innerHTML = `
+                    <div>
+                        <div class="comment-user-box">
+                            ${avatarHtml}
+                            <div class="comment-user">${c.user}</div>
+                        </div>
+                        <div class="comment-text" style="padding-left: 5px;">${c.text}</div>
+                    </div>
+                    ${btn}
+                `;
                 display.appendChild(div);
             });
         }
 
+        // Seidenweicher Maus-Herzchen-Schweif
         const trailEmojis = ['&#12436;', '&#12435;', '&#12434;', '&#10024;', '&#127800;'];
         document.addEventListener('mousemove', (e) => {
             if (Math.random() > 0.25) return;
             const heart = document.createElement('div');
             heart.classList.add('sparkle-trail');
             heart.innerHTML = trailEmojis[Math.floor(Math.random() * trailEmojis.length)];
-            heart.style.left = e.clientX + 'px'; heart.style.top = e.clientY + 'px';
-            document.body.appendChild(heart);
-            setTimeout(() => { heart.remove(); }, 500);
-        });
-
-        displayComments();
-    </script>
-</body>
-</html>
