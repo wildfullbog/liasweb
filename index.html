@@ -6,7 +6,7 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://w3.org viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪐</text></svg>">
     <title>🪐 Lia's Space World</title>
     
-    <!-- BOMBENFEST: Die Funktionen direkt im Head, damit der Browser sie sofort erkennt -->
+    <!-- JavaScript direkt im Head, damit absolut gar nichts blockiert -->
     <script>
         let currentRole = 'member';
         const STAFF_PASSWORD = 'lia123'; // Dein Passwort
@@ -31,13 +31,13 @@
                 document.getElementById('role-overlay').style.display = 'none';
             }, 500);
 
-            const statusTag = document.getElementById('status-tag');
+            const roleTag = document.getElementById('role-tag');
             if(role === 'staff') {
-                statusTag.innerHTML = 'Rolle: 👾 Staff-Mode';
-                statusTag.style.color = '#ff007f';
+                roleTag.innerHTML = '👾 Staff-Mode';
+                roleTag.style.color = '#ff007f';
             } else {
-                statusTag.innerHTML = 'Rolle: 👑 Member';
-                statusTag.style.color = '#74b9ff';
+                roleTag.innerHTML = '👑 Member';
+                roleTag.style.color = '#74b9ff';
             }
             displayComments(); 
         }
@@ -106,6 +106,23 @@
                 display.appendChild(commentEl);
             });
         }
+
+        // Live-Status Skript: Überprüft ob die Website fertig geladen hat
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', updateToReady);
+        } else {
+            setTimeout(updateToReady, 800); // Kleine Verzögerung für den coolen Effekt
+        }
+
+        function updateToReady() {
+            window.addEventListener('load', () => {
+                const statusIndicator = document.getElementById('live-status-indicator');
+                if (statusIndicator) {
+                    statusIndicator.innerHTML = '<span class="status-dot ready"></span> Online & Bereit';
+                    statusIndicator.style.boxShadow = '0 0 15px rgba(46, 204, 113, 0.4)';
+                }
+            });
+        }
     </script>
 
     <style>
@@ -148,12 +165,22 @@
             background: rgba(255, 255, 255, 0.9);
         }
 
-        /* Status-Anzeige oben rechts */
-        #status-tag {
-            position: fixed; top: 20px; right: 20px; background: rgba(255,255,255,0.6);
-            backdrop-filter: blur(10px); padding: 8px 20px; border-radius: 50px;
-            font-weight: 800; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.5); z-index: 999;
+        /* NEU: Live-Status-Box oben rechts */
+        .status-container {
+            position: fixed; top: 20px; right: 20px; display: flex; flex-direction: column; gap: 8px; z-index: 999;
         }
+        .status-box {
+            background: rgba(255,255,255,0.5); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            padding: 10px 22px; border-radius: 50px; font-weight: 800; font-size: 0.85rem;
+            border: 1px solid rgba(255,255,255,0.6); display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05); transition: all 0.4s ease;
+        }
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+        .status-dot.loading { background: #e67e22; animation: pulse-orange 1s infinite alternate; }
+        .status-dot.ready { background: #2ecc71; animation: pulse-green 1s infinite alternate; }
+
+        @keyframes pulse-orange { 0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(230, 126, 34, 0.7); } 100% { transform: scale(1.1); box-shadow: 0 0 10px 4px rgba(230, 126, 34, 0); } }
+        @keyframes pulse-green { 0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); } 100% { transform: scale(1.1); box-shadow: 0 0 10px 4px rgba(46, 204, 113, 0); } }
 
         /* Hintergrund-Partikel */
         .heart-particle {
@@ -185,25 +212,3 @@
 
         .main-content { max-width: 760px; width: 90%; margin: 40px auto; z-index: 10; }
         .card {
-            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-            border-radius: 45px; border: 2px solid rgba(255, 255, 255, 0.8); padding: 50px 45px; margin-bottom: 40px;
-            text-align: center; box-shadow: 0 25px 65px rgba(255, 20, 147, 0.2);
-        }
-
-        h1 { font-size: 3.8rem; margin: 0 0 20px 0; font-weight: 900; color: #fff; }
-        h1 span, h2 span, h3 span { background: linear-gradient(45deg, #ff007f, #ff00ff, #00d2ff); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        h2 { font-size: 2.5rem; margin-top: 0; font-weight: 900; color: #2d3436; }
-        p { font-size: 1.3rem; line-height: 1.8; color: #444; margin-bottom: 35px; font-weight: 600; }
-
-        /* Discord Banner */
-        .discord-box {
-            background: linear-gradient(135deg, #5865F2, #7289DA); color: white; border-radius: 30px;
-            padding: 22px; margin-top: 30px; display: flex; align-items: center; justify-content: space-between;
-        }
-        .discord-info { display: flex; align-items: center; gap: 15px; text-align: left; }
-        .discord-name { font-size: 1.4rem; font-weight: 900; }
-
-        /* Steckbrief */
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 30px; }
-        .info-item { background: rgba(255, 255, 255, 0.45); padding: 22px; border-radius: 25px; border: 2px solid rgba(255, 255, 255, 0.6); text-align: left; }
-        .info-label { font-size: 0.9rem; color: #ff007f; font-weight: 900; text-transform: uppercase; margin-bottom: 5px; }
