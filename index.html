@@ -5,6 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://w3.org viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪐</text></svg>">
     <title>🪐 Lia's Space World</title>
+    
+    <!-- BOMBENFEST: Die Funktionen direkt im Head, damit der Browser sie sofort erkennt -->
+    <script>
+        let currentRole = 'member';
+        const STAFF_PASSWORD = 'lia123'; // Dein Passwort
+
+        function showStaffLogin() {
+            document.getElementById('staff-password-section').style.display = 'block';
+        }
+
+        function verifyStaff() {
+            const enteredPw = document.getElementById('staff-password').value;
+            if (enteredPw === STAFF_PASSWORD) {
+                selectRole('staff');
+            } else {
+                alert('Falsches Passwort! ❌ Versuch es noch einmal.');
+            }
+        }
+
+        function selectRole(role) {
+            currentRole = role;
+            document.getElementById('role-overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('role-overlay').style.display = 'none';
+            }, 500);
+
+            const statusTag = document.getElementById('status-tag');
+            if(role === 'staff') {
+                statusTag.innerHTML = 'Rolle: 👾 Staff-Mode';
+                statusTag.style.color = '#ff007f';
+            } else {
+                statusTag.innerHTML = 'Rolle: 👑 Member';
+                statusTag.style.color = '#74b9ff';
+            }
+            displayComments(); 
+        }
+
+        function getComments() {
+            const comments = localStorage.getItem('lia_comments');
+            return comments ? JSON.parse(comments) : [];
+        }
+
+        function addComment() {
+            const nameInput = document.getElementById('comment-name');
+            const textInput = document.getElementById('comment-text');
+            
+            if (!nameInput.value.trim() || !textInput.value.trim()) {
+                alert('Bitte fülle beide Felder aus! 🌸');
+                return;
+            }
+
+            const comments = getComments();
+            const newComment = {
+                id: Date.now(),
+                user: nameInput.value.trim(),
+                text: textInput.value.trim()
+            };
+
+            comments.push(newComment);
+            localStorage.setItem('lia_comments', JSON.stringify(comments));
+            
+            textInput.value = ''; 
+            displayComments();
+        }
+
+        function deleteComment(id) {
+            let comments = getComments();
+            comments = comments.filter(c => c.id !== id);
+            localStorage.setItem('lia_comments', JSON.stringify(comments));
+            displayComments();
+        }
+
+        function displayComments() {
+            const display = document.getElementById('comments-display');
+            if(!display) return;
+            display.innerHTML = '';
+            const comments = getComments();
+
+            if (comments.length === 0) {
+                display.innerHTML = '<p style="text-align:center; color:#888;">Noch keine Kommentare da. Schreib den ersten! 💖</p>';
+                return;
+            }
+
+            comments.forEach(comment => {
+                const commentEl = document.createElement('div');
+                commentEl.classList.add('single-comment');
+                
+                const deleteBtnHtml = currentRole === 'staff' 
+                    ? `<button class="delete-btn" style="display:block;" onclick="deleteComment(${comment.id})">Löschen ❌</button>` 
+                    : '';
+
+                commentEl.innerHTML = `
+                    <div>
+                        <div class="comment-user">👤 ${comment.user}</div>
+                        <div class="comment-text">${comment.text}</div>
+                    </div>
+                    ${deleteBtnHtml}
+                `;
+                display.appendChild(commentEl);
+            });
+        }
+    </script>
+
     <style>
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -104,73 +207,3 @@
         .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 30px; }
         .info-item { background: rgba(255, 255, 255, 0.45); padding: 22px; border-radius: 25px; border: 2px solid rgba(255, 255, 255, 0.6); text-align: left; }
         .info-label { font-size: 0.9rem; color: #ff007f; font-weight: 900; text-transform: uppercase; margin-bottom: 5px; }
-        .info-value { font-size: 1.35rem; font-weight: 800; color: #1e272e; }
-        .game-tag { display: inline-block; background: linear-gradient(135deg, #74b9ff, #a29bfe); color: white; padding: 12px 24px; border-radius: 25px; font-weight: 800; margin: 6px; box-shadow: 0 5px 18px rgba(162, 155, 254, 0.4); }
-
-        /* Gästebuch */
-        .comment-input-box { display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px; }
-        .comment-input {
-            width: 100%; padding: 15px 25px; border-radius: 25px; border: 2px solid rgba(255,255,255,0.8);
-            background: rgba(255,255,255,0.5); font-size: 1.1rem; font-weight: 600; outline: none; box-sizing: border-box;
-        }
-        .comment-submit-btn {
-            background: linear-gradient(45deg, #ff007f, #ff00ff); color: white; border: none;
-            padding: 15px; border-radius: 50px; font-weight: 900; font-size: 1.1rem; cursor: pointer; transition: 0.2s;
-        }
-        .comment-submit-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,0,127,0.4); }
-        
-        .comments-list { text-align: left; display: flex; flex-direction: column; gap: 15px; }
-        .single-comment {
-            background: rgba(255, 255, 255, 0.5); padding: 20px; border-radius: 25px;
-            border: 1px solid rgba(255,255,255,0.6); display: flex; justify-content: space-between; align-items: center;
-        }
-        .comment-user { font-weight: 900; color: #ff007f; font-size: 1.1rem; margin-bottom: 5px; }
-        .comment-text { font-weight: 600; color: #2d3436; font-size: 1.1rem; }
-        
-        .delete-btn {
-            background: #ff3838; color: white; border: none; padding: 8px 15px;
-            border-radius: 15px; font-weight: 800; cursor: pointer; display: none;
-        }
-        .delete-btn:hover { background: #cf2121; }
-
-        #pet-axolotl { position: fixed; bottom: 25px; right: 25px; font-size: 3.8rem; cursor: pointer; z-index: 999; user-select: none; }
-        footer { margin-top: auto; padding: 45px; font-size: 1.1rem; color: #fff; font-weight: 800; text-shadow: 0 2px 6px rgba(255, 0, 127, 0.5); z-index: 10; }
-    </style>
-</head>
-<body>
-
-    <!-- Rollen-Auswahl-Overlay -->
-    <div id="role-overlay">
-        <div class="login-box">
-            <h2>Wähle deine Rolle ✨</h2>
-            <p>Wie möchtest du Lia's Website betreten?</p>
-            <button class="role-btn btn-member" onclick="selectRole('member')">Als Member beitreten 👑</button>
-            <button class="role-btn btn-staff" onclick="showStaffLogin()">Als Staff einloggen 👾</button>
-            
-            <div id="staff-password-section">
-                <input type="password" id="staff-password" class="input-field" placeholder="Staff-Passwort eingeben">
-                <button class="role-btn btn-staff" style="margin-top: 10px; padding: 10px;" onclick="verifyStaff()">Login</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Live Status Anzeige -->
-    <div id="status-tag">Rolle: Lädt...</div>
-
-    <div id="pet-axolotl" onclick="petMe()">🦎</div>
-    <div id="heart-container"></div>
-
-    <header>
-        <div class="logo">💖 LIA'S AXOLOTL WORLD</div>
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#about">Über mich</a>
-            <a href="#comments">Gästebuch 🌸</a>
-        </nav>
-    </header>
-
-    <div class="main-content">
-        
-        <div class="card" id="home">
-            <h1>Hi, ich bin <span>Lia</span>! 🦎</h1>
-            <p>Willkommen in meiner pinken Cyber-Oase! Ich liebe Gaming, guten Style und natürlich Axolotl. Schön, dass du da bist! 🌸</p>
