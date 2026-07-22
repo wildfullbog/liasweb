@@ -34,6 +34,20 @@
         }
         .loader-axolotl { font-size: 5rem; animation: bounce 1s infinite alternate; }
         .loader-text { color: white; font-weight: 900; font-size: 1.5rem; margin-top: 20px; text-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        
+        /* Stylischer Internet-Fehler-Text (Am Anfang unsichtbar) */
+        #error-text {
+            display: none;
+            color: #ff3838;
+            font-weight: 900;
+            font-size: 1.2rem;
+            margin-top: 15px;
+            text-shadow: 0 0 15px rgba(255, 56, 56, 0.6);
+            background: rgba(0, 0, 0, 0.1);
+            padding: 8px 20px;
+            border-radius: 20px;
+            animation: blink 1s infinite alternate;
+        }
 
         /* Magische Partikel-Sterne */
         .heart-particle {
@@ -65,6 +79,7 @@
             100% { transform: scale(0); opacity: 0; }
         }
         @keyframes bounce { 0% { transform: translateY(0); } 100% { transform: translateY(-20px); } }
+        @keyframes blink { 0% { opacity: 0.3; } 100% { opacity: 1; } }
 
         /* High-End Glas-Header */
         header {
@@ -242,6 +257,8 @@
     <div id="loader">
         <div class="loader-axolotl">🦎🌸</div>
         <div class="loader-text">Lia's World wird geladen... ✨</div>
+        <!-- Neuer Fehlertext -->
+        <div id="error-text">INTERNET-FEHLER ⚠️</div>
     </div>
 
     <!-- Interaktives Haustier -->
@@ -263,18 +280,3 @@
         <div class="card" id="home">
             <h1>Hi, ich bin <span>Lia</span>! 🦎</h1>
             <p>Willkommen in meiner pinken Cyber-Oase! Ich liebe Gaming, guten Style und natürlich Axolotl. Schön, dass du da bist! 🌸</p>
-            <a href="https://tiktok.com" target="_blank" class="btn">MEIN TIKTOK PROFILE 🎬</a>
-            
-            <div class="discord-box">
-                <div class="discord-info">
-                    <div class="discord-icon">👾</div>
-                    <div>
-                        <div style="font-size: 0.75rem; font-weight: 900; text-transform: uppercase; opacity: 0.9;">Add mich auf Discord:</div>
-                        <div class="discord-name">i_like_axolotl</div>
-                    </div>
-                </div>
-                <div style="font-size: 1.5rem;">🌸</div>
-            </div>
-        </div>
-
-        <div class="card" id="about">
