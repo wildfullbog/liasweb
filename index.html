@@ -8,7 +8,7 @@
     
     <script>
         let currentRole = 'member';
-        const STAFF_PASSWORD = 'lia123'; // Das Admin-Passwort
+        const STAFF_PASSWORD = 'lia123'; // Admin-Passwort für dich
 
         function showStaffLogin() {
             document.getElementById('staff-password-section').style.display = 'block';
@@ -115,6 +115,7 @@
                 statusIndicator.innerHTML = '<span class="status-dot ready"></span> Online & Bereit';
                 statusIndicator.style.boxShadow = '0 0 15px rgba(46, 204, 113, 0.4)';
             }
+            displayComments();
         });
     </script>
 
@@ -208,5 +209,3 @@
             background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
             border-radius: 45px; border: 2px solid rgba(255, 255, 255, 0.8); padding: 50px 45px; margin-bottom: 40px;
             text-align: center; box-shadow: 0 25px 65px rgba(255, 20, 147, 0.2);
-        }
-
