@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lia's Pink Axolotl Cyber-World</title>
     <style>
-        /* High-End Cyber Pink Verlauf im Hintergrund */
+        /* Luxuriöser, fließender Cyber-Pink-Verlauf */
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
@@ -20,7 +20,7 @@
             overflow-x: hidden;
         }
 
-        /* Hintergrund-Partikel (Fallende Herzen/Axolotl) */
+        /* Sanft fallende Hintergrund-Partikel */
         .heart-particle {
             position: fixed;
             top: -10%;
@@ -31,15 +31,15 @@
             opacity: 0.65;
         }
 
-        /* 10.000.000x BESSER: Absolut fehlerfreier Herz-Maus-Schweif */
+        /* Reaktivierter, dichter Herz-Cursor-Schweif */
         .sparkle-trail {
             position: fixed;
             pointer-events: none;
             z-index: 9999;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             line-height: 1;
-            animation: particleFade 0.5s ease-out forwards;
-            text-shadow: 0 0 8px #ff00ff, 0 0 15px #ff007f;
+            animation: particleFade 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff007f;
             user-select: none;
         }
 
@@ -49,16 +49,16 @@
         }
         
         @keyframes particleFade {
-            0% { transform: scale(0.6) translateY(0); opacity: 1; }
-            100% { transform: scale(1.4) translateY(-20px); opacity: 0; }
+            0% { transform: translate(-50%, -50%) scale(0.6) translateY(0); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1.4) translateY(-30px); opacity: 0; }
         }
 
-        /* Luxus Glasmorphism Header */
+        /* Elegantes Glasmorphism-Menü */
         header {
             width: 90%;
             max-width: 1000px;
             margin-top: 25px;
-            background: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.45);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             padding: 18px 35px;
@@ -87,16 +87,16 @@
             font-weight: 800;
             font-size: 1.05rem;
             text-shadow: 0 2px 5px rgba(0,0,0,0.15);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s ease;
         }
 
         nav a:hover {
             color: #ff007f;
             text-shadow: 0 0 15px #ff007f;
-            transform: scale(1.2);
+            transform: scale(1.15);
         }
 
-        /* Main Wrapper */
+        /* Inhalts-Container */
         .main-content {
             max-width: 760px;
             width: 90%;
@@ -104,7 +104,7 @@
             z-index: 10;
         }
 
-        /* Ultimative Cyber-Glas-Karten */
+        /* Premium Cyber-Glas-Karten mit Glow-Effekt */
         .card {
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(30px);
@@ -119,9 +119,9 @@
         }
 
         .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 35px 80px rgba(255, 20, 147, 0.35);
-            background: rgba(255, 255, 255, 0.7);
+            transform: translateY(-8px);
+            box-shadow: 0 35px 80px rgba(255, 20, 147, 0.4);
+            background: rgba(255, 255, 255, 0.68);
         }
 
         h1 {
@@ -155,11 +155,11 @@
             align-items: center;
             justify-content: space-between;
             box-shadow: 0 12px 30px rgba(88, 101, 242, 0.45);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s ease;
         }
 
         .discord-box:hover {
-            transform: scale(1.04);
+            transform: scale(1.03);
             box-shadow: 0 18px 40px rgba(88, 101, 242, 0.6);
         }
 
@@ -183,7 +183,7 @@
             text-align: left;
             transition: transform 0.2s;
         }
-        .info-item:hover { transform: scale(1.03); }
+        .info-item:hover { transform: scale(1.03); background: rgba(255, 255, 255, 0.6); }
 
         .info-label { font-size: 0.9rem; color: #ff007f; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
         .info-value { font-size: 1.35rem; font-weight: 800; color: #1e272e; }
