@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://w3.org' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪐</text></svg>">
-    <title>🌸 Lia's Gästebuch</title>
+    <title>&#127800; Lia's Gästebuch</title>
     <style>
         body {
             font-family: 'Segoe UI', Roboto, sans-serif;
@@ -69,10 +69,10 @@
 <body>
 
     <div id="role-tag" class="status-box">👑 Member</div>
-    <div id="pet-axolotl" onclick="petMe()">%F0%9F%A6%8E</div>
+    <div id="pet-axolotl" onclick="petMe()">&#129454;</div>
 
     <header>
-        <div class="logo">🌸 LIA'S GÄSTEBUCH</div>
+        <div class="logo">&#127800; LIA'S GÄSTEBUCH</div>
         <nav>
             <a href="index.html">Home</a>
             <a href="kommentare.html">Gästebuch</a>
@@ -80,20 +80,19 @@
     </header>
 
     <div class="main-content">
-        <!-- GÄSTEBUCH CARD -->
         <div class="card">
-            <h2><span>Community Gästebuch</span> 🌸</h2>
+            <h2><span>Community Gästebuch</span> &#127800;</h2>
             <p>Schreib mir oder meinen Besuchern eine nette Nachricht!</p>
             <div class="comment-input-box">
                 <input type="text" id="comment-name" class="comment-input" placeholder="Dein Name...">
                 <input type="text" id="comment-text" class="comment-input" placeholder="Schreibe eine Nachricht...">
-                <button class="comment-submit-btn" onclick="addComment()">Absenden ✨</button>
+                <button class="comment-submit-btn" onclick="addComment()">Absenden &#10024;</button>
             </div>
             <div id="comments-display"></div>
         </div>
 
         <div style="text-align: center; margin-top: 20px;">
-            <button class="staff-trigger-btn" onclick="triggerStaffLogin()">Staff Login 👾</button>
+            <button class="staff-trigger-btn" onclick="triggerStaffLogin()">Staff Login &#128126;</button>
         </div>
     </div>
 
@@ -105,10 +104,10 @@
             const enteredPw = prompt('Staff-Passwort eingeben:');
             if (enteredPw === STAFF_PASSWORD) {
                 currentRole = 'staff';
-                document.getElementById('role-tag').innerHTML = '👾 Staff-Mode';
+                document.getElementById('role-tag').innerHTML = '&#128126; Staff-Mode';
                 document.getElementById('role-tag').style.color = '#ff007f';
                 displayComments();
-            } else if (enteredPw !== null) { alert('Falsch! ❌'); }
+            } else if (enteredPw !== null) { alert('Falsch! &#10060;'); }
         }
 
         function getComments() {
@@ -139,25 +138,25 @@
             const comments = getComments();
 
             if (comments.length === 0) {
-                display.innerHTML = '<p>💖 Noch keine Einträge da...</p>';
+                display.innerHTML = '<p>&#128146; Noch keine Einträge da...</p>';
                 return;
             }
 
             comments.forEach(c => {
                 const div = document.createElement('div');
                 div.classList.add('single-comment');
-                const btn = currentRole === 'staff' ? `<button class="delete-btn" style="display:block;" onclick="deleteComment(${c.id})">❌</button>` : '';
+                const btn = currentRole === 'staff' ? `<button class="delete-btn" style="display:block;" onclick="deleteComment(${c.id})">&#10060;</button>` : '';
                 div.innerHTML = `<div><div class="comment-user">👤 ${c.user}</div><div>${c.text}</div></div>${btn}`;
                 display.appendChild(div);
             });
         }
 
-        const trailEmojis = ['💖', '💗', '💕', '✨', '🌸'];
+        const trailEmojis = ['&#12436;', '&#12435;', '&#12434;', '&#10024;', '&#127800;'];
         document.addEventListener('mousemove', (e) => {
             if (Math.random() > 0.25) return;
             const heart = document.createElement('div');
             heart.classList.add('sparkle-trail');
-            heart.innerText = trailEmojis[Math.floor(Math.random() * trailEmojis.length)];
+            heart.innerHTML = trailEmojis[Math.floor(Math.random() * trailEmojis.length)];
             heart.style.left = e.clientX + 'px'; heart.style.top = e.clientY + 'px';
             document.body.appendChild(heart);
             setTimeout(() => { heart.remove(); }, 500);
