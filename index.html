@@ -30,25 +30,10 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.6s ease, visibility 0.6s;
+            transition: opacity 0.5s ease, visibility 0.5s;
         }
         .loader-axolotl { font-size: 5rem; animation: bounce 1s infinite alternate; }
         .loader-text { color: white; font-weight: 900; font-size: 1.5rem; margin-top: 20px; text-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        
-        /* Internet-Fehler-Text */
-        #error-text {
-            display: none;
-            color: #ff3838;
-            font-weight: 900;
-            font-size: 1.2rem;
-            margin-top: 20px;
-            text-shadow: 0 0 15px rgba(255, 56, 56, 0.7);
-            background: rgba(0, 0, 0, 0.15);
-            padding: 8px 25px;
-            border-radius: 20px;
-            animation: blink 1s infinite alternate;
-            letter-spacing: 1px;
-        }
 
         /* Magische Partikel-Sterne */
         .heart-particle {
@@ -80,7 +65,6 @@
             100% { transform: scale(0); opacity: 0; }
         }
         @keyframes bounce { 0% { transform: translateY(0); } 100% { transform: translateY(-20px); } }
-        @keyframes blink { 0% { opacity: 0.4; } 100% { opacity: 1; } }
 
         /* High-End Glas-Header */
         header {
@@ -236,11 +220,10 @@
 </head>
 <body>
 
-    <!-- Lade-Screen mit eingebautem Fehlertext -->
+    <!-- Lade-Screen -->
     <div id="loader">
         <div class="loader-axolotl">🦎🌸</div>
         <div class="loader-text">Lia's World wird geladen... ✨</div>
-        <div id="error-text">INTERNET-FEHLER ⚠️</div>
     </div>
 
     <!-- Interaktives Haustier -->
@@ -278,3 +261,10 @@
 
         <div class="card" id="about">
             <h2><span>Mein Steckbrief</span> ✨</h2>
+            <div class="info-grid">
+                <div class="info-item"><div class="info-label">Spitzname / Ingame</div><div class="info-value">Lia 🎮</div></div>
+                <div class="info-item"><div class="info-label">Alter</div><div class="info-value">17 Jahre 👑</div></div>
+                <div class="info-item"><div class="info-label">Obsession</div><div class="info-value">Axolotls 🦎💖</div></div>
+                <div class="info-item"><div class="info-label">Vibe</div><div class="info-value">Pink & Aesthetic ✨</div></div>
+            </div>
+
