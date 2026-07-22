@@ -42,7 +42,7 @@
             padding: 50px 45px; margin-bottom: 40px; text-align: center;
         }
         h1 { font-size: 3.8rem; margin: 0 0 20px 0; font-weight: 900; }
-        h1 span, h2 span { background: linear-gradient(45deg, #ff007f, #ff00ff, #00d2ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        h1 span, h2 span, h3 span { background: linear-gradient(45deg, #ff007f, #ff00ff, #00d2ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         h2 { font-size: 2.5rem; margin-top: 0; font-weight: 900; }
         p { font-size: 1.3rem; line-height: 1.8; color: #e0e0e0; margin-bottom: 35px; }
         
@@ -64,7 +64,6 @@
             box-shadow: 0 10px 30px rgba(255, 0, 127, 0.5); border: none; cursor: pointer;
         }
 
-        /* Profil-Einstellungs-Zone & Google Button */
         .profile-pic { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #ff007f; margin: 0 auto 15px auto; display: block; object-fit: cover; }
         .profile-input {
             width: 100%; padding: 12px 20px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.2);
@@ -109,21 +108,19 @@
             </div>
         </div>
 
-        <!-- NEU: GOOGLE LOGIN & PROFILE SETTINGS CARD -->
+        <!-- GOOGLE LOGIN & PROFILE SETTINGS CARD -->
         <div class="card" id="profile-card">
             <h2><span>User Profil & Einstellungen</span> 🪐</h2>
             
-            <!-- Google Login Bereich -->
             <div id="google-login-container">
                 <p>Logge dich mit Google ein, um dein eigenes Profil zu erstellen und Kommentare freizuschalten!</p>
-                <div style="display: flex; justify-content: center;" id="g_id_onload"
+                <div style="flex; justify-content: center;" id="g_id_onload"
                      data-client_id="YOUR_GOOGLE_CLIENT_://googleusercontent.com"
                      data-callback="handleCredentialResponse">
                 </div>
                 <div style="display: flex; justify-content: center;" class="g_id_signin" data-type="standard"></div>
             </div>
 
-            <!-- Profil-Einstellungs-Bereich (wird nach Login sichtbar) -->
             <div id="profile-settings-container" style="display: none;">
                 <img id="user-avatar" class="profile-pic" src="" alt="Avatar">
                 <p style="margin-bottom: 5px; font-size: 1.1rem;" id="user-email"></p>
@@ -136,21 +133,20 @@
             </div>
         </div>
 
-        <!-- ABOUT CARD -->
+        <!-- REPARIERT: ABOUT CARD (Ohne Vibe & Ohne Valorant) -->
         <div class="card" id="about">
             <h2><span>Mein Steckbrief</span> &#10024;</h2>
             <div class="info-grid">
                 <div class="info-item"><div class="info-label">Spitzname</div><div class="info-value">Lia &#127918;</div></div>
                 <div class="info-item"><div class="info-label">Alter</div><div class="info-value">17 Jahre &#128081;</div></div>
                 <div class="info-item"><div class="info-label">Obsession</div><div class="info-value">Axolotls &#129454;&#12316;</div></div>
-                <div class="info-item"><div class="info-label">Vibe</div><div class="info-value">Space &#127386;</div></div>
             </div>
 
             <h3 style="margin-top: 40px; font-size: 1.5rem;"><span>My Games & Hobbies</span></h3>
             <div style="margin-top: 15px;">
-                <span class="game-tag">Valorant &#128299;</span>
                 <span class="game-tag">Roblox &#129524;</span>
                 <span class="game-tag">Minecraft &#128142;</span>
+                <span class="game-tag">TikToks Create 🎬</span>
             </div>
         </div>
     </div>
@@ -158,20 +154,28 @@
     <footer>&copy; 2026 Lia's World &bull; Cosmic-Power &#127386;</footer>
 
     <script>
-        // Google Authentifizierung verarbeiten
         function handleCredentialResponse(response) {
             const responsePayload = decodeJwtResponse(response.credential);
-            
             const userData = {
                 name: responsePayload.name,
                 picture: responsePayload.picture,
                 email: responsePayload.email
             };
-            
             localStorage.setItem('lia_user_profile', JSON.stringify(userData));
             loadProfile();
         }
 
         function decodeJwtResponse(token) {
-            let base64Url = token.split('.')[1];
-            let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            let base64Url = token.split('.');
+            let base64 = base64Url[1].replace(/-/g, '+').replace(/_/g, '/');
+            let jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            loadProfile();
+        });
+
+        function loadProfile() {
