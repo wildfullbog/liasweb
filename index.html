@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lia's Pink Axolotl Cyber-World</title>
     <style>
-        /* Ultimativer, sanfter Glitzer-Verlauf */
+        /* Sanfter Glitzer-Verlauf */
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
@@ -30,12 +30,12 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.6s ease;
+            transition: opacity 0.6s ease, visibility 0.6s;
         }
         .loader-axolotl { font-size: 5rem; animation: bounce 1s infinite alternate; }
         .loader-text { color: white; font-weight: 900; font-size: 1.5rem; margin-top: 20px; text-shadow: 0 0 10px rgba(0,0,0,0.1); }
 
-        /* Magische Partikel-Sterne im Hintergrund */
+        /* Magische Partikel-Sterne */
         .heart-particle {
             position: fixed;
             top: -10%;
@@ -200,7 +200,7 @@
         .info-value { font-size: 1.3rem; font-weight: 800; color: #1e272e; }
         .game-tag { display: inline-block; background: linear-gradient(135deg, #74b9ff, #a29bfe); color: white; padding: 10px 20px; border-radius: 20px; font-weight: 800; margin: 5px; box-shadow: 0 4px 15px rgba(162, 155, 254, 0.4); }
 
-        /* Magischer Neon-Glow-Button */
+        /* Neon-Glow-Button */
         .btn {
             display: inline-block;
             padding: 18px 45px;
@@ -277,3 +277,4 @@
             </div>
         </div>
 
+        <div class="card" id="about">
