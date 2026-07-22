@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://w3.org' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪐</text></svg>">
-    <title>Gästebuch</title>
+    <title>Gästebuch v2</title>
+    
     <style>
         body {
             font-family: 'Segoe UI', Roboto, sans-serif;
@@ -49,7 +50,6 @@
         h2 span { background: linear-gradient(45deg, #ff007f, #ff00ff, #00d2ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         p { font-size: 1.3rem; line-height: 1.8; color: #e0e0e0; margin-bottom: 35px; }
         
-        /* Gästebuch Inputs */
         .comment-input-box { display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px; }
         .comment-input {
             width: 100%; padding: 15px 25px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.15);
@@ -60,7 +60,6 @@
             padding: 16px; border-radius: 50px; font-weight: 900; font-size: 1.15rem; cursor: pointer;
         }
         
-        /* Kommentaranzeige */
         .single-comment {
             background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 25px;
             border: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; text-align: left;
@@ -77,10 +76,10 @@
 <body>
 
     <div id="role-tag" class="status-box">👑 Member</div>
-    <div id="pet-axolotl" onclick="petMe()">&#129454;</div>
+    <div id="pet-axolotl" id="pet-btn">Löschen ❌</div>
 
     <header>
-        <div class="logo">&#127800; LIA'S GÄSTEBUCH</div>
+        <div class="logo">🌸 LIA'S GÄSTEBUCH</div>
         <nav>
             <a href="index.html">Home</a>
             <a href="kommentare.html">Gästebuch</a>
@@ -89,14 +88,14 @@
 
     <div class="main-content">
         <div class="card">
-            <h2><span>Community Gästebuch</span> &#127800;</h2>
+            <h2><span>Community Gästebuch</span> 🌸</h2>
             
             <div id="guestbook-area">
                 <p>Schreibe mir oder meinen Besuchern eine nette Nachricht!</p>
                 <div class="comment-input-box">
                     <input type="text" id="comment-name" class="comment-input" placeholder="Dein Name...">
                     <input type="text" id="comment-text" class="comment-input" placeholder="Schreibe eine Nachricht...">
-                    <button class="comment-submit-btn" onclick="addComment()">Absenden &#10024;</button>
+                    <button class="comment-submit-btn" id="send-comment-btn">Absenden ✨</button>
                 </div>
             </div>
             
@@ -104,62 +103,79 @@
         </div>
 
         <div style="text-align: center; margin-top: 20px;">
-            <button class="staff-trigger-btn" onclick="triggerStaffLogin()">Staff Login &#128126;</button>
+            <button class="staff-trigger-btn" id="login-admin-btn">Staff Login 👾</button>
         </div>
     </div>
 
-    <!-- Skripte ans Ende verlagert, damit alle Elemente beim Laden existieren -->
+    <!-- Die Skripte sind jetzt komplett über Event-Listener verdrahtet (Kein onclick mehr nötig!) -->
     <script>
         let currentRole = 'member';
         const STAFF_PASSWORD = 'lia123';
 
-        function checkUserLogin() {
-            const profile = localStorage.getItem('lia_user_profile');
-            const nameInput = document.getElementById('comment-name');
-            if (profile && nameInput) {
-                const data = JSON.parse(profile);
-                const customNick = localStorage.getItem('lia_custom_nickname') || '';
-                nameInput.value = customNick ? `${data.name} (${customNick})` : data.name;
-                nameInput.disabled = true; 
-            }
-        }
+        // Event-Listener an die Buttons binden, sobald das HTML bereit ist
+        window.addEventListener('DOMContentLoaded', () => {
+            const loginBtn = document.getElementById('login-admin-btn');
+            const sendBtn = document.getElementById('send-comment-btn');
+            const petBtn = document.getElementById('pet-axolotl');
 
-        function triggerStaffLogin() {
-            const enteredPw = prompt('Staff-Passwort eingeben:');
-            if (enteredPw === STAFF_PASSWORD) {
-                currentRole = 'staff';
-                document.getElementById('role-tag').innerHTML = '&#128126; Staff-Mode';
-                document.getElementById('role-tag').style.color = '#ff007f';
-                displayComments();
-            } else if (enteredPw !== null) { alert('Falsch! &#10060;'); }
-        }
+            if (loginBtn) {
+                loginBtn.addEventListener('click', () => {
+                    const enteredPw = prompt('Staff-Passwort eingeben:');
+                    if (enteredPw === STAFF_PASSWORD) {
+                        currentRole = 'staff';
+                        const roleTag = document.getElementById('role-tag');
+                        if (roleTag) {
+                            roleTag.innerHTML = '👾 Staff-Mode';
+                            roleTag.style.color = '#ff007f';
+                        }
+                        displayComments();
+                    } else if (enteredPw !== null) { 
+                        alert('Falsch! ❌'); 
+                    }
+                });
+            }
+
+            if (sendBtn) {
+                sendBtn.addEventListener('click', () => {
+                    const n = document.getElementById('comment-name');
+                    const t = document.getElementById('comment-text');
+                    if (!n || !t || !n.value.trim() || !t.value.trim()) return;
+
+                    const profile = localStorage.getItem('lia_user_profile');
+                    let userPic = '';
+                    if (profile) { userPic = JSON.parse(profile).picture; }
+
+                    const comments = getComments();
+                    comments.push({ 
+                        id: Date.now(), 
+                        user: n.value.trim(), 
+                        text: t.value.trim(),
+                        avatar: userPic
+                    });
+                    localStorage.setItem('lia_comments', JSON.stringify(comments));
+                    t.value = ''; 
+                    displayComments();
+                });
+            }
+
+            if (petBtn) {
+                petBtn.addEventListener('click', () => {
+                    petBtn.innerText = '🌸'; 
+                    setTimeout(() => { petBtn.innerText = '🦎'; }, 500);
+                });
+            }
+
+            // Start-Funktionen ausführen
+            checkUserLogin();
+            displayComments();
+        });
 
         function getComments() {
             const c = localStorage.getItem('lia_comments');
             return c ? JSON.parse(c) : [];
         }
 
-        function addComment() {
-            const n = document.getElementById('comment-name');
-            const t = document.getElementById('comment-text');
-            if (!n || !t || !n.value.trim() || !t.value.trim()) return;
-
-            const profile = localStorage.getItem('lia_user_profile');
-            let userPic = '';
-            if(profile) { userPic = JSON.parse(profile).picture; }
-
-            const comments = getComments();
-            comments.push({ 
-                id: Date.now(), 
-                user: n.value.trim(), 
-                text: t.value.trim(),
-                avatar: userPic
-            });
-            localStorage.setItem('lia_comments', JSON.stringify(comments));
-            t.value = ''; displayComments();
-        }
-
-        function deleteComment(id) {
+        function removeComment(id) {
             let comments = getComments().filter(c => c.id !== id);
             localStorage.setItem('lia_comments', JSON.stringify(comments));
             displayComments();
@@ -167,40 +183,31 @@
 
         function displayComments() {
             const display = document.getElementById('comments-display');
-            if(!display) return; display.innerHTML = '';
+            if (!display) return; 
+            display.innerHTML = '';
             const comments = getComments();
 
             if (comments.length === 0) {
-                display.innerHTML = '<p>&#128146; Noch keine Einträge da...</p>';
+                display.innerHTML = '<p>💕 Noch keine Einträge da...</p>';
                 return;
             }
 
             comments.forEach(c => {
                 const div = document.createElement('div');
                 div.classList.add('single-comment');
-                const btn = currentRole === 'staff' ? `<button class="delete-btn" style="display:block;" onclick="deleteComment(${c.id})">&#10060;</button>` : '';
+                
+                // Erstellt den Löschknopf dynamisch über JavaScript-Sicherheit
+                let btnHtml = '';
+                if (currentRole === 'staff') {
+                    const btn = document.createElement('button');
+                    btn.className = 'delete-btn';
+                    btn.style.display = 'block';
+                    btn.innerText = '❌';
+                    btn.onclick = () => removeComment(c.id);
+                    div.appendChild(btn);
+                }
                 
                 const avatarHtml = c.avatar 
                     ? `<img class="comment-avatar" src="${c.avatar}" alt="">`
                     : `<span style="font-size:1.5rem; margin-right:8px;">👤</span>`;
 
-                div.innerHTML = `
-                    <div>
-                        <div class="comment-user-box">
-                            ${avatarHtml}
-                            <div class="comment-user">${c.user}</div>
-                        </div>
-                        <div class="comment-text" style="padding-left: 5px;">${c.text}</div>
-                    </div>
-                    ${btn}
-                `;
-                display.appendChild(div);
-            });
-        }
-
-        const trailEmojis = ['&#12436;', '&#12435;', '&#12434;', '&#10024;', '&#127800;'];
-        document.addEventListener('mousemove', (e) => {
-            if (Math.random() > 0.25) return;
-            const heart = document.createElement('div');
-            heart.classList.add('sparkle-trail');
-            heart.innerHTML = trailEmojis[Math.floor(Math.random() * trailEmojis.length)];
