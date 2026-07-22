@@ -31,13 +31,14 @@
             opacity: 0.65;
         }
 
-        /* 10.000.000x BESSER: Magischer Sternen-Maus-Schweif */
+        /* 10.000.000x BESSER: Perfekter Herz-Maus-Schweif */
         .sparkle-trail {
             position: fixed;
             pointer-events: none;
             z-index: 9999;
-            font-size: 1.2rem;
-            animation: particleFade 0.8s ease-out forwards;
+            font-size: 1.5rem;
+            transform: translate(-50%, -50%);
+            animation: particleFade 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
             text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff007f;
         }
 
@@ -45,9 +46,10 @@
             0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
+        
         @keyframes particleFade {
-            0% { transform: translate(-50%, -50%) scale(1.4) rotate(0deg); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(0) rotate(180deg); opacity: 0; }
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
         }
 
         /* Luxus Glasmorphism Header */
