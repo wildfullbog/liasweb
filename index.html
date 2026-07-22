@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lia's Pink Axolotl Cyber-World</title>
     <style>
-        /* Sanfter Glitzer-Verlauf im Hintergrund */
+        /* High-End Cyber Pink Verlauf */
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 40%, #fecfef 70%, #74b9ff 100%);
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 35%, #fecfef 65%, #74b9ff 100%);
             background-attachment: fixed;
             min-height: 100vh;
             color: #2d3436;
@@ -20,48 +20,48 @@
             overflow-x: hidden;
         }
 
-        /* Magische Partikel-Sterne */
+        /* Hintergrund-Partikel */
         .heart-particle {
             position: fixed;
             top: -10%;
-            font-size: 22px;
+            font-size: 24px;
             pointer-events: none;
             animation: fall linear infinite;
             z-index: 1;
-            opacity: 0.7;
+            opacity: 0.65;
         }
 
-        /* Maus-Effekt Style */
-        .sparkle {
+        /* 10.000.000x BESSER: Magischer Sternen-Maus-Schweif */
+        .sparkle-trail {
             position: fixed;
             pointer-events: none;
-            background: radial-gradient(circle, #fff 20%, #ff00ff 70%);
-            border-radius: 50%;
-            z-index: 9998;
-            animation: pop 0.6s ease-out forwards;
+            z-index: 9999;
+            font-size: 1.2rem;
+            animation: particleFade 0.8s ease-out forwards;
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff007f;
         }
 
         @keyframes fall {
             0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
-        @keyframes pop {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(0); opacity: 0; }
+        @keyframes particleFade {
+            0% { transform: translate(-50%, -50%) scale(1.4) rotate(0deg); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(0) rotate(180deg); opacity: 0; }
         }
 
-        /* High-End Glas-Header */
+        /* Luxus Glasmorphism Header */
         header {
             width: 90%;
             max-width: 1000px;
             margin-top: 25px;
-            background: rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
-            padding: 15px 30px;
+            padding: 18px 35px;
             border-radius: 50px;
-            box-shadow: 0 10px 40px rgba(255, 0, 127, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 40px rgba(255, 0, 127, 0.25), inset 0 1px 0 rgba(255,255,255,0.6);
+            border: 2px solid rgba(255, 255, 255, 0.7);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -71,10 +71,10 @@
 
         .logo {
             font-weight: 900;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             color: #fff;
-            text-shadow: 0 0 15px #ff007f, 0 0 5px #ff00ff;
-            animation: pulse 2s infinite ease-in-out;
+            text-shadow: 0 0 15px #ff007f, 0 0 30px #ff00ff;
+            letter-spacing: 1px;
         }
 
         nav a {
@@ -82,124 +82,140 @@
             text-decoration: none;
             color: #ffffff;
             font-weight: 800;
-            font-size: 1rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+            font-size: 1.05rem;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         nav a:hover {
             color: #ff007f;
-            text-shadow: 0 0 10px #ff007f;
-            transform: scale(1.15);
+            text-shadow: 0 0 15px #ff007f;
+            transform: scale(1.2);
         }
 
-        /* Inhalts-Container */
+        /* Main Wrapper */
         .main-content {
-            max-width: 750px;
+            max-width: 760px;
             width: 90%;
             margin: 40px auto;
             z-index: 10;
         }
 
-        /* Premium Cyber-Glas-Karten */
+        /* Ultimative Cyber-Glas-Karten */
         .card {
-            background: rgba(255, 255, 255, 0.55);
+            background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
-            border-radius: 40px;
-            box-shadow: 0 25px 60px rgba(255, 20, 147, 0.25);
-            border: 2px solid rgba(255, 255, 255, 0.7);
-            padding: 45px;
-            margin-bottom: 35px;
+            border-radius: 45px;
+            box-shadow: 0 25px 65px rgba(255, 20, 147, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            padding: 50px 45px;
+            margin-bottom: 40px;
             text-align: center;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.2);
         }
 
         .card:hover {
-            transform: translateY(-8px) scale(1.01);
-            box-shadow: 0 35px 70px rgba(255, 20, 147, 0.4);
-            background: rgba(255, 255, 255, 0.65);
+            transform: translateY(-10px);
+            box-shadow: 0 35px 80px rgba(255, 20, 147, 0.35);
+            background: rgba(255, 255, 255, 0.7);
         }
 
         h1 {
-            font-size: 3.5rem;
+            font-size: 3.8rem;
             margin: 0 0 20px 0;
             font-weight: 900;
             letter-spacing: -1.5px;
             color: #fff;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         h1 span, h2 span, h3 span {
-            background: linear-gradient(45deg, #ff007f, #ff00ff, #70a1ff);
+            background: linear-gradient(45deg, #ff007f, #ff00ff, #00d2ff);
             background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: shine 3s linear infinite;
         }
 
-        h2 { font-size: 2.3rem; margin-top: 0; font-weight: 900; color: #333; }
-        p { font-size: 1.25rem; line-height: 1.8; color: #3f3f3f; margin-bottom: 30px; font-weight: 600; }
+        h2 { font-size: 2.5rem; margin-top: 0; font-weight: 900; color: #2d3436; }
+        p { font-size: 1.3rem; line-height: 1.8; color: #444; margin-bottom: 35px; font-weight: 600; }
 
-        /* Discord Special Card */
+        /* Discord Premium Banner */
         .discord-box {
             background: linear-gradient(135deg, #5865F2, #7289DA);
             color: white;
-            border-radius: 25px;
-            padding: 20px;
-            margin-top: 25px;
+            border-radius: 30px;
+            padding: 22px;
+            margin-top: 30px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 10px 25px rgba(88, 101, 242, 0.4);
-            transition: all 0.3s ease;
+            box-shadow: 0 12px 30px rgba(88, 101, 242, 0.45);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .discord-box:hover {
-            transform: scale(1.03);
-            box-shadow: 0 15px 35px rgba(88, 101, 242, 0.6);
+            transform: scale(1.04);
+            box-shadow: 0 18px 40px rgba(88, 101, 242, 0.6);
         }
 
         .discord-info { display: flex; align-items: center; gap: 15px; text-align: left; }
-        .discord-icon { font-size: 2.5rem; animation: pulse 1.5s infinite; }
-        .discord-name { font-size: 1.3rem; font-weight: 900; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .discord-icon { font-size: 2.6rem; animation: heartbeat 1.5s infinite ease-in-out; }
+        .discord-name { font-size: 1.4rem; font-weight: 900; text-shadow: 0 2px 10px rgba(0,0,0,0.15); }
 
         /* Steckbrief-Raster */
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 20px;
-            margin-top: 25px;
+            margin-top: 30px;
         }
 
         .info-item {
-            background: rgba(255, 255, 255, 0.4);
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.45);
+            padding: 22px;
             border-radius: 25px;
-            border: 2px solid rgba(255, 255, 255, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.6);
             text-align: left;
+            transition: transform 0.2s;
         }
+        .info-item:hover { transform: scale(1.03); }
 
-        .info-label { font-size: 0.9rem; color: #ff007f; font-weight: 900; text-transform: uppercase; margin-bottom: 5px; }
-        .info-value { font-size: 1.3rem; font-weight: 800; color: #1e272e; }
-        .game-tag { display: inline-block; background: linear-gradient(135deg, #74b9ff, #a29bfe); color: white; padding: 10px 20px; border-radius: 20px; font-weight: 800; margin: 5px; box-shadow: 0 4px 15px rgba(162, 155, 254, 0.4); }
+        .info-label { font-size: 0.9rem; color: #ff007f; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+        .info-value { font-size: 1.35rem; font-weight: 800; color: #1e272e; }
+        
+        .game-tag { 
+            display: inline-block; 
+            background: linear-gradient(135deg, #74b9ff, #a29bfe); 
+            color: white; 
+            padding: 12px 24px; 
+            border-radius: 25px; 
+            font-weight: 800; 
+            margin: 6px; 
+            font-size: 1.05rem;
+            box-shadow: 0 5px 18px rgba(162, 155, 254, 0.4); 
+            transition: all 0.3s;
+        }
+        .game-tag:hover { transform: scale(1.1); rotate: 2deg; box-shadow: 0 8px 25px rgba(162, 155, 254, 0.6); }
 
-        /* Interaktives Axolotl-Haustier unten rechts */
+        /* Interaktives Axolotl-Haustier */
         #pet-axolotl {
             position: fixed;
-            bottom: 20px; right: 20px;
-            font-size: 3.5rem;
+            bottom: 25px; right: 25px;
+            font-size: 3.8rem;
             cursor: pointer;
             z-index: 999;
             transition: transform 0.2s;
             user-select: none;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
         }
         #pet-axolotl:active { transform: scale(1.3); }
 
         @keyframes shine { to { background-position: 200% center; } }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 
-        footer { margin-top: auto; padding: 40px; font-size: 1rem; color: #fff; font-weight: 800; text-shadow: 0 2px 5px rgba(255, 0, 127, 0.5); z-index: 10; }
+        footer { margin-top: auto; padding: 45px; font-size: 1.1rem; color: #fff; font-weight: 800; text-shadow: 0 2px 6px rgba(255, 0, 127, 0.5); z-index: 10; }
     </style>
 </head>
 <body>
@@ -207,7 +223,6 @@
     <!-- Interaktives Haustier unten rechts -->
     <div id="pet-axolotl" onclick="petMe()">🦎</div>
 
-    <!-- Container für fallende Herzen -->
     <div id="heart-container"></div>
 
     <header>
@@ -221,11 +236,11 @@
 
     <div class="main-content">
         
-        <!-- STARTSEITE -->
+        <!-- HOME CARD -->
         <div class="card" id="home">
             <h1>Hi, ich bin <span>Lia</span>! 🦎</h1>
             <p>Willkommen in meiner pinken Cyber-Oase! Ich liebe Gaming, guten Style und natürlich Axolotl. Schön, dass du da bist! 🌸</p>
-            <a href="https://tiktok.com" target="_blank" class="btn" style="text-decoration: none; padding: 18px 45px; background: linear-gradient(45deg, #ff007f, #ff00ff); color: white; border-radius: 50px; font-weight: 900; font-size: 1.2rem; display: inline-block; box-shadow: 0 10px 30px rgba(255, 0, 127, 0.3);">MEIN TIKTOK PROFILE 🎬</a>
+            <a href="https://tiktok.com" target="_blank" style="text-decoration: none; padding: 18px 45px; background: linear-gradient(45deg, #ff007f, #ff00ff); color: white; border-radius: 50px; font-weight: 900; font-size: 1.25rem; display: inline-block; box-shadow: 0 10px 30px rgba(255, 0, 127, 0.45); transition: transform 0.2s;">MEIN TIKTOK PROFILE 🎬</a>
             
             <div class="discord-box">
                 <div class="discord-info">
@@ -239,29 +254,10 @@
             </div>
         </div>
 
-        <!-- STECKBRIEF -->
+        <!-- ABOUT CARD -->
         <div class="card" id="about">
             <h2><span>Mein Steckbrief</span> ✨</h2>
             <div class="info-grid">
                 <div class="info-item"><div class="info-label">Spitzname / Ingame</div><div class="info-value">Lia 🎮</div></div>
                 <div class="info-item"><div class="info-label">Alter</div><div class="info-value">17 Jahre 👑</div></div>
                 <div class="info-item"><div class="info-label">Obsession</div><div class="info-value">Axolotls 🦎💖</div></div>
-                <div class="info-item"><div class="info-label">Vibe</div><div class="info-value">Pink & Aesthetic ✨</div></div>
-            </div>
-
-            <h3 style="margin-top: 35px; font-weight: 900; font-size: 1.4rem;"><span>My Games & Hobbies</span> 🕹️</h3>
-            <div style="margin-top: 10px;">
-                <span class="game-tag">Valorant 🔫</span>
-                <span class="game-tag">Roblox 🧸</span>
-                <span class="game-tag">Minecraft 💎</span>
-                <span class="game-tag">TikToks Create 🎬</span>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        &copy; 2026 Lia's World &bull; Created with 1000x Axolotl-Power 🌸
-    </footer>
-
-    <script>
-        // Hintergrund Partikel (Herzen & Axolotl)
