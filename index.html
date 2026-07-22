@@ -5,126 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://w3.org' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪐</text></svg>">
     <title>🪐 Lia's Space World</title>
-    
-    <script>
-        let currentRole = 'member';
-        const STAFF_PASSWORD = 'lia123'; // Admin-Passwort für dich
-
-        // Staff Login direkt über den Hauptseiten-Knopf ausführen
-        function triggerStaffLogin() {
-            const enteredPw = prompt('Bitte das Staff-Passwort eingeben: 👾');
-            if (enteredPw === STAFF_PASSWORD) {
-                currentRole = 'staff';
-                alert('Erfolgreich als Staff angemeldet! 👾 Die Löschknöpfe im Gästebuch sind jetzt aktiv.');
-                
-                const statusTag = document.getElementById('role-tag');
-                if(statusTag) {
-                    statusTag.innerHTML = '👾 Staff-Mode';
-                    statusTag.style.color = '#ff007f';
-                }
-                displayComments();
-            } else if (enteredPw !== null) {
-                alert('Falsches Passwort! ❌');
-            }
-        }
-
-        function getComments() {
-            const comments = localStorage.getItem('lia_comments');
-            return comments ? JSON.parse(comments) : [];
-        }
-
-        function addComment() {
-            const nameInput = document.getElementById('comment-name');
-            const textInput = document.getElementById('comment-text');
-            
-            if (!nameInput || !textInput || !nameInput.value.trim() || !textInput.value.trim()) {
-                alert('Bitte fülle beide Felder aus! 🌸');
-                return;
-            }
-
-            const comments = getComments();
-            const newComment = {
-                id: Date.now(),
-                user: nameInput.value.trim(),
-                text: textInput.value.trim()
-            };
-
-            comments.push(newComment);
-            localStorage.setItem('lia_comments', JSON.stringify(comments));
-            
-            textInput.value = ''; 
-            displayComments();
-        }
-
-        function deleteComment(id) {
-            let comments = getComments();
-            comments = comments.filter(c => c.id !== id);
-            localStorage.setItem('lia_comments', JSON.stringify(comments));
-            displayComments();
-        }
-
-        function displayComments() {
-            const display = document.getElementById('comments-display');
-            if(!display) return;
-            display.innerHTML = '';
-            const comments = getComments();
-
-            if (comments.length === 0) {
-                display.innerHTML = '<p style="text-align:center; color:#e0e0e0; font-weight:600;">Noch keine Kommentare da. Schreib den ersten! 💖</p>';
-                return;
-            }
-
-            comments.forEach(comment => {
-                const commentEl = document.createElement('div');
-                commentEl.classList.add('single-comment');
-                
-                const deleteBtnHtml = currentRole === 'staff' 
-                    ? `<button class="delete-btn" style="display:block;" onclick="deleteComment(${comment.id})">Löschen ❌</button>` 
-                    : '';
-
-                commentEl.innerHTML = `
-                    <div>
-                        <div class="comment-user">👤 ${comment.user}</div>
-                        <div class="comment-text">${comment.text}</div>
-                    </div>
-                    ${deleteBtnHtml}
-                `;
-                display.appendChild(commentEl);
-            });
-        }
-
-        // Lädt die Kommentare direkt beim Starten der Website
-        window.addEventListener('load', () => {
-            displayComments();
-        });
-    </script>
-
     <style>
         /* Hochwertiger, galaktischer Cyber-Pink-Verlauf */
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             background: linear-gradient(135deg, #120c1f 0%, #2a1b40 40%, #4a1c3e 70%, #1a0a2a 100%);
             background-attachment: fixed;
-            min-height: 100vh;
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow-x: hidden;
+            min-height: 100vh; color: #ffffff;
+            display: flex; flex-direction: column; align-items: center; overflow-x: hidden;
         }
 
         /* Langsam fallende Hintergrund-Elemente */
         .heart-bg {
-            position: fixed;
-            font-size: 1.8rem;
-            opacity: 0.15;
-            z-index: 1;
-            animation: floatDown 10s infinite linear;
-            pointer-events: none;
+            position: fixed; font-size: 1.8rem; opacity: 0.15; z-index: 1;
+            animation: floatDown 10s infinite linear; pointer-events: none;
         }
-
         @keyframes floatDown {
             0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
             10% { opacity: 0.2; }
@@ -132,145 +28,149 @@
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
 
-        /* Unzerstörbarer, wunderschöner Herz-Maus-Schweif */
+        /* Wunderschöner Herz-Maus-Schweif */
         .sparkle-trail {
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            font-size: 1.6rem;
-            line-height: 1;
-            animation: particleFade 0.5s ease-out forwards;
-            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff007f;
+            position: fixed; pointer-events: none; z-index: 9999; font-size: 1.6rem; line-height: 1;
+            animation: particleFade 0.5s ease-out forwards; text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff007f;
             user-select: none;
         }
-
         @keyframes particleFade {
             0% { transform: translate(-50%, -50%) scale(0.6) translateY(0); opacity: 1; }
             100% { transform: translate(-50%, -50%) scale(1.4) translateY(-20px); opacity: 0; }
         }
 
-        /* Status Anzeige oben rechts */
-        .status-container {
-            position: fixed; top: 20px; right: 20px; z-index: 999;
-        }
-        .status-box {
-            background: rgba(255,255,255,0.1); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            padding: 10px 22px; border-radius: 50px; font-weight: 800; font-size: 0.85rem;
-            border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; gap: 10px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); transition: all 0.4s ease;
-            color: #74b9ff;
-        }
-
         /* Luxus Glasmorphism Header */
         header {
-            width: 90%;
-            max-width: 1000px;
-            margin-top: 25px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 18px 35px;
-            border-radius: 50px;
+            width: 90%; max-width: 1000px; margin-top: 25px;
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            padding: 18px 35px; border-radius: 50px; border: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; z-index: 10;
             box-shadow: 0 10px 40px rgba(255, 0, 127, 0.2), inset 0 1px 0 rgba(255,255,255,0.2);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-sizing: border-box;
-            z-index: 10;
         }
+        .logo { font-weight: 900; font-size: 1.6rem; color: #fff; text-shadow: 0 0 15px #ff007f, 0 0 30px #ff00ff; letter-spacing: 1px; }
+        nav a { margin-left: 25px; text-decoration: none; color: #ffffff; font-weight: 800; font-size: 1.05rem; transition: all 0.3s ease; }
+        nav a:hover { color: #ff007f; text-shadow: 0 0 15px #ff007f; transform: scale(1.15); }
 
-        .logo {
-            font-weight: 900;
-            font-size: 1.6rem;
-            color: #fff;
-            text-shadow: 0 0 15px #ff007f, 0 0 30px #ff00ff;
-            letter-spacing: 1px;
-        }
-
-        nav a {
-            margin-left: 25px;
-            text-decoration: none;
-            color: #ffffff;
-            font-weight: 800;
-            font-size: 1.05rem;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
-        }
-
-        nav a:hover {
-            color: #ff007f;
-            text-shadow: 0 0 15px #ff007f;
-            transform: scale(1.15);
-        }
-
-        /* Inhalts-Container */
-        .main-content {
-            max-width: 760px;
-            width: 90%;
-            margin: 40px auto;
-            z-index: 10;
-        }
-
-        /* High-End Cyber-Glas-Karten */
+        .main-content { max-width: 760px; width: 90%; margin: 40px auto; z-index: 10; }
         .card {
-            background: rgba(20, 10, 35, 0.7);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border-radius: 45px;
-            box-shadow: 0 25px 65px rgba(255, 20, 147, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 50px 45px;
-            margin-bottom: 40px;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+            background: rgba(20, 10, 35, 0.7); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            border-radius: 45px; border: 1px solid rgba(255, 255, 255, 0.15); padding: 50px 45px; margin-bottom: 40px;
+            text-align: center; box-shadow: 0 25px 65px rgba(255, 20, 147, 0.25); transition: all 0.4s ease;
         }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 35px 80px rgba(255, 20, 147, 0.45); background: rgba(30, 15, 50, 0.75); }
 
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 35px 80px rgba(255, 20, 147, 0.45);
-            background: rgba(30, 15, 50, 0.75);
-        }
+        h1 { font-size: 3.8rem; margin: 0 0 20px 0; font-weight: 900; color: #fff; text-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+        h1 span, h2 span, h3 span { background: linear-gradient(45deg, #ff007f, #ff00ff, #00d2ff); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; }
+        @keyframes shine { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        h2 { font-size: 2.5rem; margin-top: 0; font-weight: 900; color: #ffffff; }
+        p { font-size: 1.3rem; line-height: 1.8; color: #e0e0e0; margin-bottom: 35px; font-weight: 600; }
 
-        h1 {
-            font-size: 3.8rem;
-            margin: 0 0 20px 0;
-            font-weight: 900;
-            letter-spacing: -1.5px;
-            color: #fff;
-            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
-        }
-
-        h1 span, h2 span, h3 span {
-            background: linear-gradient(45deg, #ff007f, #ff00ff, #00d2ff);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 3s linear infinite;
-        }
-
-        @keyframes shine {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        h2 { font-size: 2.5rem; margin-top: 0; font-weight: 900; color: #ffffff; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-        p { font-size: 1.3rem; line-height: 1.8; color: #e0e0e0; margin-bottom: 35px; font-weight: 600; text-shadow: 0 2px 5px rgba(0,0,0,0.4); }
-
-        /* Discord Premium Banner */
         .discord-box {
-            background: linear-gradient(135deg, #5865F2, #7289DA);
-            color: white;
-            border-radius: 30px;
-            padding: 22px;
-            margin-top: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 12px 30px rgba(88, 101, 242, 0.4);
+            background: linear-gradient(135deg, #5865F2, #7289DA); color: white; border-radius: 30px;
+            padding: 22px; margin-top: 30px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .discord-info { display: flex; align-items: center; gap: 15px; text-align: left; }
+        .discord-name { font-size: 1.4rem; font-weight: 900; }
+
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 30px; }
+        .info-item { background: rgba(255, 255, 255, 0.07); padding: 22px; border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.15); text-align: left; }
+        .info-label { font-size: 0.9rem; color: #ff007f; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+        .info-value { font-size: 1.35rem; font-weight: 800; color: #ffffff; }
+        
+        .game-tag { 
+            display: inline-block; background: linear-gradient(135deg, #74b9ff, #a29bfe); color: white; 
+            padding: 12px 24px; border-radius: 25px; font-weight: 800; margin: 6px; font-size: 1.05rem;
+            box-shadow: 0 5px 18px rgba(162, 155, 254, 0.4); 
         }
 
-        .discord-info { display: flex; align-items: center; gap: 15px; text-align: left; }
-        .discord-name { font-size: 1.4rem; font-weight: 900; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .btn {
+            display: inline-block; padding: 18px 45px; background: linear-gradient(45deg, #ff007f, #ff00ff);
+            color: white; text-decoration: none; border-radius: 50px; font-weight: 900; font-size: 1.25rem;
+            box-shadow: 0 10px 30px rgba(255, 0, 127, 0.5); transition: all 0.3s ease;
+        }
 
+        #pet-axolotl { position: fixed; bottom: 25px; right: 25px; font-size: 3.8rem; cursor: pointer; z-index: 999; user-select: none; }
+        footer { margin-top: auto; padding: 45px; font-size: 1.1rem; color: #fff; font-weight: 800; z-index: 10; }
+    </style>
+</head>
+<body>
+
+    <div class="heart-bg" style="left: 15%; animation-delay: 0s;">💖</div>
+    <div class="heart-bg" style="left: 40%; animation-delay: 3s;">🦎</div>
+    <div class="heart-bg" style="left: 65%; animation-delay: 1s;">✨</div>
+    <div class="heart-bg" style="left: 85%; animation-delay: 5s;">🌸</div>
+
+    <div id="pet-axolotl" onclick="petMe()">🦎</div>
+
+    <header>
+        <div class="logo">🌌 LIA'S SPACE WORLD</div>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#about">Über mich</a>
+            <a href="https://tiktok.com" target="_blank">My Style ✨</a>
+        </nav>
+    </header>
+
+    <div class="main-content">
+        <div class="card" id="home">
+            <h1>Hi, ich bin <span>Lia</span>! 🦎</h1>
+            <p>Willkommen in meiner pinken Cyber-Oase! Ich liebe Gaming, guten Style und natürlich Axolotl. Schön, dass du da bist! 🌸</p>
+            <a href="https://tiktok.com" target="_blank" class="btn">MEIN TIKTOK PROFILE 🎬</a>
+            
+            <div class="discord-box">
+                <div class="discord-info">
+                    <div style="font-size: 2.5rem;">👾</div>
+                    <div>
+                        <div style="font-size: 0.75rem; font-weight: 900; text-transform: uppercase; opacity: 0.9;">Add mich auf Discord:</div>
+                        <div class="discord-name">i_like_axolotl</div>
+                    </div>
+                </div>
+                <div style="font-size: 1.5rem;">🌸</div>
+            </div>
+        </div>
+
+        <div class="card" id="about">
+            <h2><span>Mein Steckbrief</span> ✨</h2>
+            <div class="info-grid">
+                <div class="info-item"><div class="info-label">Spitzname / Ingame</div><div class="info-value">Lia 🎮</div></div>
+                <div class="info-item"><div class="info-label">Alter</div><div class="info-value">17 Jahre 👑</div></div>
+                <div class="info-item"><div class="info-label">Obsession</div><div class="info-value">Axolotls 🦎💖</div></div>
+                <div class="info-item"><div class="info-label">Vibe</div><div class="info-value">Space & Aesthetic 🌌</div></div>
+            </div>
+
+            <h3 style="margin-top: 40px; font-weight: 900; font-size: 1.5rem;"><span>My Games & Hobbies</span> 🕹️</h3>
+            <div style="margin-top: 15px;">
+                <span class="game-tag">Valorant 🔫</span>
+                <span class="game-tag">Roblox 🧸</span>
+                <span class="game-tag">Minecraft 💎</span>
+                <span class="game-tag">TikToks Create 🎬</span>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Lia's World &bull; Created with 10.000.000x Cosmic-Power 🌌
+    </footer>
+
+    <script>
+        const trailEmojis = ['💖', '💗', '💕', '✨', '🌸', '💝'];
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.3) return; 
+            const heart = document.createElement('div');
+            heart.classList.add('sparkle-trail');
+            heart.innerText = trailEmojis[Math.floor(Math.random() * trailEmojis.length)];
+            heart.style.left = e.clientX + 'px';
+            heart.style.top = e.clientY + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 500);
+        });
+
+        function petMe() {
+            const pet = document.getElementById('pet-axolotl');
+            if(!pet) return;
+            pet.innerText = '🌸';
+            setTimeout(() => { pet.innerText = '🦎'; }, 500);
+        }
+    </script>
+</body>
+</html>
