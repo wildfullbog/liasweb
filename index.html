@@ -63,27 +63,27 @@
 </head>
 <body>
 
-    <div id="pet-axolotl" onclick="petMe()">🦎</div>
+    <!-- REPARIERT: Nutzt jetzt den unzerstörbaren Bildcode für das Axolotl -->
+    <div id="pet-axolotl" onclick="petMe()">&#129454;</div>
 
     <header>
-        <div class="logo">🌟 LIA'S WORLD</div>
+        <div class="logo">&#10024; LIA'S WORLD</div>
         <nav>
             <a href="index.html">Home</a>
             <a href="#about">Über mich</a>
-            <!-- WICHTIG: Linkt jetzt auf deine neue Kommentare-Seite -->
-            <a href="kommentare.html">Gästebuch 🌸</a>
+            <a href="kommentare.html">Gästebuch &#127800;</a>
         </nav>
     </header>
 
     <div class="main-content">
         <div class="card" id="home">
-            <h1>Hi, ich bin <span>Lia</span>! 🦎</h1>
-            <p>Willkommen in meiner pinken Cyber-Oase! Ich liebe Gaming, guten Style und natürlich Axolotl. Schön, dass du da bist! 🌸</p>
+            <h1>Hi, ich bin <span>Lia</span>! &#129454;</h1>
+            <p>Willkommen in meiner pinken Cyber-Oase! Ich liebe Gaming, guten Style und natürlich Axolotl. Schön, dass du da bist! &#127800;</p>
             <a href="https://tiktok.com" target="_blank" class="btn">MEIN TIKTOK PROFILE 🎬</a>
             
             <div class="discord-box">
                 <div class="discord-info">
-                    <div style="font-size: 2.5rem; display: inline-block; vertical-align: middle; margin-right: 15px;">👾</div>
+                    <div style="font-size: 2.5rem; display: inline-block; vertical-align: middle; margin-right: 15px;">&#12316;</div>
                     <div style="display: inline-block; text-align: left; vertical-align: middle;">
                         <div style="font-size: 0.75rem; font-weight: 900; text-transform: uppercase;">Add mich auf Discord:</div>
                         <div class="discord-name">i_like_axolotl</div>
@@ -93,39 +93,39 @@
         </div>
 
         <div class="card" id="about">
-            <h2><span>Mein Steckbrief</span> ✨</h2>
+            <h2><span>Mein Steckbrief</span> &#10024;</h2>
             <div class="info-grid">
-                <div class="info-item"><div class="info-label">Spitzname</div><div class="info-value">Lia 🎮</div></div>
-                <div class="info-item"><div class="info-label">Alter</div><div class="info-value">17 Jahre 👑</div></div>
-                <div class="info-item"><div class="info-label">Obsession</div><div class="info-value">Axolotls 🦎💖</div></div>
-                <div class="info-item"><div class="info-label">Vibe</div><div class="info-value">Space 🌌</div></div>
+                <div class="info-item"><div class="info-label">Spitzname</div><div class="info-value">Lia &#127918;</div></div>
+                <div class="info-item"><div class="info-label">Alter</div><div class="info-value">17 Jahre &#128081;</div></div>
+                <div class="info-item"><div class="info-label">Obsession</div><div class="info-value">Axolotls &#129454;&#12316;</div></div>
+                <div class="info-item"><div class="info-label">Vibe</div><div class="info-value">Space &#127386;</div></div>
             </div>
 
             <h3 style="margin-top: 40px; font-size: 1.5rem;"><span>My Games & Hobbies</span></h3>
             <div style="margin-top: 15px;">
-                <span class="game-tag">Valorant 🔫</span>
-                <span class="game-tag">Roblox 🧸</span>
-                <span class="game-tag">Minecraft 💎</span>
+                <span class="game-tag">Valorant &#128299;</span>
+                <span class="game-tag">Roblox &#129524;</span>
+                <span class="game-tag">Minecraft &#128142;</span>
             </div>
         </div>
     </div>
 
-    <footer>&copy; 2026 Lia's World &bull; Cosmic-Power 🌌</footer>
+    <footer>&copy; 2026 Lia's World &bull; Cosmic-Power &#127386;</footer>
 
     <script>
-        const trailEmojis = ['💖', '💗', '💕', '✨', '🌸', '💝'];
+        const trailEmojis = ['&#12436;', '&#12435;', '&#12434;', '&#10024;', '&#127800;', '&#12413;'];
         document.addEventListener('mousemove', (e) => {
             if (Math.random() > 0.25) return;
             const heart = document.createElement('div');
             heart.classList.add('sparkle-trail');
-            heart.innerText = trailEmojis[Math.floor(Math.random() * trailEmojis.length)];
+            heart.innerHTML = trailEmojis[Math.floor(Math.random() * trailEmojis.length)];
             heart.style.left = e.clientX + 'px'; heart.style.top = e.clientY + 'px';
             document.body.appendChild(heart);
             setTimeout(() => { heart.remove(); }, 500);
         });
         function petMe() {
             const p = document.getElementById('pet-axolotl');
-            if(p) { p.innerText = '🌸'; setTimeout(() => { p.innerText = '🦎'; }, 500); }
+            if(p) { p.innerHTML = '&#127800;'; setTimeout(() => { p.innerHTML = '&#129454;'; }, 500); }
         }
     </script>
 </body>
