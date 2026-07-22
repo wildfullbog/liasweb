@@ -4,9 +4,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://w3.org' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪐</text></svg>">
-    <title>🪐 Lia's Space World</title>
+    <title>Gästebuch</title>
     
-    <script src="https://google.com" async defer></script>
+    <script>
+        let currentRole = 'member';
+        const STAFF_PASSWORD = 'lia123';
+
+        function triggerStaffLogin() {
+            const enteredPw = prompt('Staff-Passwort eingeben:');
+            if (enteredPw === STAFF_PASSWORD) {
+                currentRole = 'staff';
+                const roleTag = document.getElementById('role-tag');
+                if (roleTag) {
+                    roleTag.innerHTML = '👾 Staff-Mode';
+                    roleTag.style.color = '#ff007f';
+                }
+                displayComments();
+            } else if (enteredPw !== null) { 
+                alert('Falsch! ❌'); 
+            }
+        }
+
+        function getComments() {
+            const c = localStorage.getItem('lia_comments');
+            return c ? JSON.parse(c) : [];
+        }
+
+        function addComment() {
+            const n = document.getElementById('comment-name');
+            const t = document.getElementById('comment-text');
+            if (!n || !t || !n.value.trim() || !t.value.trim()) return;
+
+            const profile = localStorage.getItem('lia_user_profile');
+            let userPic = '';
+            if (profile) { userPic = JSON.parse(profile).picture; }
+
+            const comments = getComments();
+            comments.push({ 
+                id: Date.now(), 
+                user: n.value.trim(), 
+                text: t.value.trim(),
+                avatar: userPic
+            });
+            localStorage.setItem('lia_comments', JSON.stringify(comments));
+            t.value = ''; 
+            displayComments();
+        }
+
+        function deleteComment(id) {
+            let comments = getComments().filter(c => c.id !== id);
+            localStorage.setItem('lia_comments', JSON.stringify(comments));
+            displayComments();
+        }
+
+        function displayComments() {
+            const display = document.getElementById('comments-display');
+            if (!display) return; 
+            display.innerHTML = '';
+            const comments = getComments();
+
+            if (comments.length === 0) {
+                display.innerHTML = '<p>💕 Noch keine Einträge da...</p>';
+                return;
+            }
+
+            comments.forEach(c => {
+                const div = document.createElement('div');
+                div.classList.add('single-comment');
+                const btn = currentRole === 'staff' ? `<button class="delete-btn" style="display:block;" onclick="deleteComment(${c.id})">❌</button>` : '';
+                
+                const avatarHtml = c.avatar 
+                    ? `<img class="comment-avatar" src="${c.avatar}" alt="">`
+                    : `<span style="font-size:1.5rem; margin-right:8px;">👤</span>`;
+
+                div.innerHTML = `
+                    <div>
+                        <div class="comment-user-box">
+                            ${avatarHtml}
+                            <div class="comment-user">${c.user}</div>
+                        </div>
+                        <div class="comment-text" style="padding-left: 5px;">${c.text}</div>
+                    </div>
+                    ${btn}
+                `;
+                display.appendChild(div);
+            });
+        }
+
+        function checkUserLogin() {
+            const profile = localStorage.getItem('lia_user_profile');
+            const nameInput = document.getElementById('comment-name');
+            if (profile && nameInput) {
+                const data = JSON.parse(profile);
+                const customNick = localStorage.getItem('lia_custom_nickname') || '';
+                nameInput.value = customNick ? `${data.name} (${customNick})` : data.name;
+                nameInput.disabled = true; 
+            }
+        }
+
+        // Sicherstellen, dass das Skript erst nach dem HTML-Aufbau die Boxen sucht
+        window.addEventListener('load', () => {
+            checkUserLogin();
+            displayComments();
+        });
+
+        // Maus-Schweif Funktion
+        const trailEmojis = ['💖', '💗', '💕', '✨', '🌸'];
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.25) return;
+            const heart = document.createElement('div');
+            heart.classList.add('sparkle-trail');
+            heart.innerText = trailEmojis[Math.floor(Math.random() * trailEmojis.length)];
+            heart.style.left = e.clientX + 'px'; heart.style.top = e.clientY + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 500);
+        });
+
+        function petMe() {
+            const p = document.getElementById('pet-axolotl');
+            if (p) { p.innerText = '🌸'; setTimeout(() => { p.innerText = '🦎'; }, 500); }
+        }
+    </script>
+
     <style>
         body {
             font-family: 'Segoe UI', Roboto, sans-serif;
@@ -25,6 +144,12 @@
             0% { transform: translate(-50%, -50%) scale(0.6); opacity: 1; }
             100% { transform: translate(-50%, -50%) scale(1.4) translateY(-20px); opacity: 0; }
         }
+        .status-box {
+            position: fixed; top: 20px; right: 20px; z-index: 999;
+            background: rgba(255,255,255,0.1); backdrop-filter: blur(15px);
+            padding: 10px 22px; border-radius: 50px; font-weight: 800; font-size: 0.85rem;
+            border: 1px solid rgba(255,255,255,0.15); color: #74b9ff;
+        }
         header {
             width: 90%; max-width: 1000px; margin-top: 25px;
             background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px);
@@ -41,141 +166,51 @@
             border-radius: 45px; border: 1px solid rgba(255, 255, 255, 0.15);
             padding: 50px 45px; margin-bottom: 40px; text-align: center;
         }
-        h1 { font-size: 3.8rem; margin: 0 0 20px 0; font-weight: 900; }
-        h1 span, h2 span, h3 span { background: linear-gradient(45deg, #ff007f, #ff00ff, #00d2ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         h2 { font-size: 2.5rem; margin-top: 0; font-weight: 900; }
+        h2 span { background: linear-gradient(45deg, #ff007f, #ff00ff, #00d2ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         p { font-size: 1.3rem; line-height: 1.8; color: #e0e0e0; margin-bottom: 35px; }
         
-        .discord-box {
-            background: linear-gradient(135deg, #5865F2, #7289DA); color: white; border-radius: 30px;
-            padding: 22px; margin-top: 30px; display: flex; align-items: center; justify-content: space-between;
+        .comment-input-box { display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px; }
+        .comment-input {
+            width: 100%; padding: 15px 25px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.07); font-size: 1.1rem; font-weight: 600; outline: none; box-sizing: border-box; color: #fff;
         }
-        .discord-name { font-size: 1.4rem; font-weight: 900; }
+        .comment-submit-btn {
+            background: linear-gradient(45deg, #ff007f, #ff00ff); color: white; border: none;
+            padding: 16px; border-radius: 50px; font-weight: 900; font-size: 1.15rem; cursor: pointer;
+        }
         
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 30px; }
-        .info-item { background: rgba(255, 255, 255, 0.07); padding: 22px; border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.15); text-align: left; }
-        .info-label { font-size: 0.9rem; color: #ff007f; font-weight: 900; text-transform: uppercase; }
-        .info-value { font-size: 1.35rem; font-weight: 800; }
-        .game-tag { display: inline-block; background: linear-gradient(135deg, #74b9ff, #a29bfe); padding: 12px 24px; border-radius: 25px; font-weight: 800; margin: 6px; }
+        .single-comment {
+            background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 25px;
+            border: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; text-align: left;
+        }
+        .comment-user-box { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+        .comment-avatar { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
+        .comment-user { font-weight: 900; color: #ff007f; }
         
-        .btn {
-            display: inline-block; padding: 18px 45px; background: linear-gradient(45deg, #ff007f, #ff00ff);
-            color: white; text-decoration: none; border-radius: 50px; font-weight: 900; font-size: 1.25rem;
-            box-shadow: 0 10px 30px rgba(255, 0, 127, 0.5); border: none; cursor: pointer;
-        }
-
-        .profile-pic { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #ff007f; margin: 0 auto 15px auto; display: block; object-fit: cover; }
-        .profile-input {
-            width: 100%; padding: 12px 20px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.2);
-            background: rgba(255,255,255,0.1); color: white; font-size: 1rem; font-weight: 600; outline: none; margin-bottom: 15px; box-sizing: border-box;
-        }
-        .profile-input::placeholder { color: #ccc; }
-        .logout-btn { background: rgba(255,56,56,0.2); border: 1px solid #ff3838; color: #ff3838; padding: 8px 20px; border-radius: 50px; cursor: pointer; font-weight: 700; margin-top: 10px; }
-        .logout-btn:hover { background: #ff3838; color: white; }
-
+        .delete-btn { background: #ff3838; color: white; border: none; padding: 8px 15px; border-radius: 15px; font-weight: 800; cursor: pointer; display: none; }
+        .staff-trigger-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.15); color: #aaa; padding: 10px 25px; border-radius: 50px; cursor: pointer; font-weight: 700; }
         #pet-axolotl { position: fixed; bottom: 25px; right: 25px; font-size: 3.8rem; cursor: pointer; z-index: 999; user-select: none; }
-        footer { margin-top: auto; padding: 45px; font-size: 1.1rem; font-weight: 800; }
     </style>
 </head>
 <body>
 
-    <div id="pet-axolotl" onclick="petMe()">&#129454;</div>
+    <div id="role-tag" class="status-box">👑 Member</div>
+    <div id="pet-axolotl" onclick="petMe()">🦎</div>
 
     <header>
-        <div class="logo">&#10024; LIA'S WORLD</div>
+        <div class="logo">🌸 LIA'S GÄSTEBUCH</div>
         <nav>
             <a href="index.html">Home</a>
-            <a href="#about">Über mich</a>
-            <a href="kommentare.html">Gästebuch &#127800;</a>
+            <a href="kommentare.html">Gästebuch</a>
         </nav>
     </header>
 
     <div class="main-content">
-        <!-- HOME CARD -->
-        <div class="card" id="home">
-            <h1>Hi, ich bin <span>Lia</span>! &#129454;</h1>
-            <p>Willkommen in meiner pinken Cyber-Oase! Ich liebe Gaming, guten Style und natürlich Axolotl. Schön, dass du da bist! &#127800;</p>
-            <a href="https://tiktok.com" target="_blank" class="btn">MEIN TIKTOK PROFILE 🎬</a>
+        <div class="card">
+            <h2><span>Community Gästebuch</span> 🌸</h2>
             
-            <div class="discord-box">
-                <div class="discord-info">
-                    <div style="font-size: 2.5rem; display: inline-block; vertical-align: middle; margin-right: 15px;">&#12316;</div>
-                    <div style="display: inline-block; text-align: left; vertical-align: middle;">
-                        <div style="font-size: 0.75rem; font-weight: 900; text-transform: uppercase;">Add mich auf Discord:</div>
-                        <div class="discord-name">i_like_axolotl</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- GOOGLE LOGIN & PROFILE SETTINGS CARD -->
-        <div class="card" id="profile-card">
-            <h2><span>User Profil & Einstellungen</span> 🪐</h2>
-            
-            <div id="google-login-container">
-                <p>Logge dich mit Google ein, um dein eigenes Profil zu erstellen und Kommentare freizuschalten!</p>
-                <div style="flex; justify-content: center;" id="g_id_onload"
-                     data-client_id="YOUR_GOOGLE_CLIENT_://googleusercontent.com"
-                     data-callback="handleCredentialResponse">
-                </div>
-                <div style="display: flex; justify-content: center;" class="g_id_signin" data-type="standard"></div>
-            </div>
-
-            <div id="profile-settings-container" style="display: none;">
-                <img id="user-avatar" class="profile-pic" src="" alt="Avatar">
-                <p style="margin-bottom: 5px; font-size: 1.1rem;" id="user-email"></p>
-                <p style="margin-top: 0; color: #74b9ff; font-weight: bold;" id="google-name"></p>
-                
-                <input type="text" id="custom-nickname" class="profile-input" placeholder="Dein Custom Spitzname (z.B. Ingame)..." oninput="saveProfileSettings()">
-                <input type="text" id="custom-bio" class="profile-input" placeholder="Schreibe eine kurze Bio über dich..." oninput="saveProfileSettings()">
-                
-                <button class="logout-btn" onclick="logoutGoogle()">Ausloggen 🚪</button>
-            </div>
-        </div>
-
-        <!-- REPARIERT: ABOUT CARD (Ohne Vibe & Ohne Valorant) -->
-        <div class="card" id="about">
-            <h2><span>Mein Steckbrief</span> &#10024;</h2>
-            <div class="info-grid">
-                <div class="info-item"><div class="info-label">Spitzname</div><div class="info-value">Lia &#127918;</div></div>
-                <div class="info-item"><div class="info-label">Alter</div><div class="info-value">17 Jahre &#128081;</div></div>
-                <div class="info-item"><div class="info-label">Obsession</div><div class="info-value">Axolotls &#129454;&#12316;</div></div>
-            </div>
-
-            <h3 style="margin-top: 40px; font-size: 1.5rem;"><span>My Games & Hobbies</span></h3>
-            <div style="margin-top: 15px;">
-                <span class="game-tag">Roblox &#129524;</span>
-                <span class="game-tag">Minecraft &#128142;</span>
-                <span class="game-tag">TikToks Create 🎬</span>
-            </div>
-        </div>
-    </div>
-
-    <footer>&copy; 2026 Lia's World &bull; Cosmic-Power &#127386;</footer>
-
-    <script>
-        function handleCredentialResponse(response) {
-            const responsePayload = decodeJwtResponse(response.credential);
-            const userData = {
-                name: responsePayload.name,
-                picture: responsePayload.picture,
-                email: responsePayload.email
-            };
-            localStorage.setItem('lia_user_profile', JSON.stringify(userData));
-            loadProfile();
-        }
-
-        function decodeJwtResponse(token) {
-            let base64Url = token.split('.');
-            let base64 = base64Url[1].replace(/-/g, '+').replace(/_/g, '/');
-            let jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-            return JSON.parse(jsonPayload);
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            loadProfile();
-        });
-
-        function loadProfile() {
+            <div id="guestbook-area">
+                <p>Schreibe mir oder meinen Besuchern eine nette Nachricht!</p>
+                <div class="comment-input-box">
+                    <input type="text" id="comment-name" class="comment-input" placeholder="Dein Name...">
